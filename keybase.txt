@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/akashravi
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://akashravi.github.io
+  * I am akashravi (https://keybase.io/akashravi) on keybase.
+  * I have a public key with fingerprint 3CD6 A05C 170A A4AC 38AC  825F 0E0A 8797 F049 B10B
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01012733f051b7b032e02ecce038bfd373b0488e53980031d1376b608ab4d4f46bc90a",
+      "fingerprint": "3cd6a05c170aa4ac38ac825f0e0a8797f049b10b",
+      "host": "keybase.io",
+      "key_id": "0e0a8797f049b10b",
+      "kid": "01012733f051b7b032e02ecce038bfd373b0488e53980031d1376b608ab4d4f46bc90a",
+      "uid": "61435bc17f9d0f0007734b8594b28a19",
+      "username": "akashravi"
+    },
+    "service": {
+      "hostname": "akashravi.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1578730741,
+  "expire_in": 157680000,
+  "prev": "5e6f5ff9af1be901794a28701b1007eacedf6f2867c0286c2823969ec7fa87e6",
+  "seqno": 3,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.3
+Comment: https://keybase.io/crypto
+
+yMIpAnicrVJrSBRRGN2t1siKgrAUCmskItvizvPObEFFVlAoQRlslMu9M3fccW1n
+m51dS5MC294vo34Y2YMolRCD1R5Qka2UEAqFPbeEKJZiQfZPEkHRHa0/9bc/93I/
+zjn3nMPXN32iK9/d3FSfvD/pq9/9tPdSzFVVdOBrA4NNbQ/ja2BCZOwitRqJ2oGQ
+oTE+BrCA5SDP60BkMcSA5wjgiKoSwMtY13jIYyDIMhF5RQaAZzWWhxKWgIywoAm6
+IGFVAYjxMroRriZWxDLCNpXlVU1CQFRZCBASkMrLSJU5UQcEIBkqUAeCglmAKTFo
+Rh0GNYdRlCwzTDqjj8C4vX/x/9l3bExOYgVexNSurmhABwBAyAtYFhUBczJiFQcY
+JVYY7SQUjUIoGrRQ3GAavQwdxw2VOM06Uf6GLKs27GAMj+eKWKZtqmYtBQRtOxL1
+OQL2nojDqCM48FsrgI2wRvukjDixooYZZnwsRaq24YizIpQhD6DAehmyO2JYJGCE
+x8YSzQqA8w+JU0mRSLqo6wrSWUwUwEJFQJwMAUurBJAglWi6pHOyBFVAT5WTOV6R
+FKJCnbZOJMZJtytsMj6e2kTVVDJqVIeRHbMI0/jo4fZJLne+K88zwdkzV/6UmX+2
+rzQw+Uex6+qngx/FvMqXBatTxa13y9esaelggucGl5/IJQ+t39JVUp5Lf7B2dbUN
+nd6QmNa7v/Bibl16wYbXw5+erdrUc5ykv5lnRj5fLHpb5jrWl8iawbkf9pKXrz23
+RubPOPzenzheubNTK6q6d8n3c3WmuWyqBPrfne/PSJn+gSMjB4SmEo+69EFg8Nod
+kmw683hRx8lTscVL9oETN14JOzJSSyhV6/ccW1zKhSoWZpOZswVDo3YOXR4urJ+1
+rW5lWbb9evnttbM3jt5csWrz9y9bwZM3Nc2pK54bdRUD+1NzuquEjufz3IfntXZO
+u32hsL3thXdCNl3T/eDo8sTcxmFPj/8XSGRFiw==
+=unPw
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/akashravi
+
+==================================================================
