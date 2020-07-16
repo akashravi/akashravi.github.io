@@ -1155,11 +1155,13 @@ html {
 }
 
 body {
-    background-image: url("images/overlay.png"), url("images/bg.jpg");
+    background: #DAE2F8;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #DAE2F8, #D6A4A4);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #DAE2F8, #D6A4A4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: repeat, no-repeat;
     background-size: auto, 100% 100%;
     background-attachment: fixed;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 body.is-preload *,
@@ -1181,7 +1183,7 @@ textarea,
 select {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
-    color: #777777;
+    color: #3c4043;
     font-size: 20pt;
     line-height: 1.75em;
 }
