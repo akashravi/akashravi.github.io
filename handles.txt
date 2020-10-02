@@ -1,3 +1,8 @@
+== Development Profiles ==
+
+    https://github.com/techtocore
+    https://trailblazer.me/id/akashravi
+
 == Competitive Programming Handles ==
 
     https://icpc.global/ICPCID/9Q3Q9LIEQSM1
@@ -5,5 +10,3 @@
     https://www.hackerrank.com/akashkravi
     http://codeforces.com/profile/akashravi
     https://www.hackerearth.com/@akashkravi
-
-
