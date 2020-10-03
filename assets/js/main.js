@@ -4,6 +4,15 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+var resumeLoaded = false;
+
+function loadResume() {
+	if (window.location.hash === '#work' && !resumeLoaded) {
+		$('iframe#resume_preview').attr('src', 'https://drive.google.com/file/d/1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt/preview');
+		resumeLoaded = true; 
+	}
+}
+
 (function($) {
 
 	var $window = $(window),
@@ -86,6 +95,7 @@
 				// Reset scroll.
 					$window.scrollTop(0);
 
+					loadResume();
 			})();
 
 		// Hashchange event.
@@ -165,6 +175,7 @@
 
 					}, 250);
 
+					loadResume();
 			});
 
 	// IE: Fixes.
