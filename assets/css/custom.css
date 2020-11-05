@@ -26,3 +26,15 @@ ul.icons li .icon:before {
     font-weight: normal;
     color: gray;
 }
+
+.article-icon {
+    padding-right: 15px;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+.text-center {
+    text-align: center;
+}
