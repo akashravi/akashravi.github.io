@@ -16,3 +16,13 @@ ul.icons li:last-child {
 ul.icons li .icon:before {
     font-size: 1.5em;
 }
+
+.about-link {
+    color: purple;
+    font-weight: normal;
+}
+
+.about-txt {
+    font-weight: normal;
+    color: gray;
+}

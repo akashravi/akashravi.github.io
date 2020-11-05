@@ -1941,8 +1941,9 @@ body.is-preload #wrapper {
 
 #main>.panel.intro header p {
     letter-spacing: -0.015em;
-    font-size: 1.25em;
+    font-size: 1.2em;
     margin: 0.25em 0 0 0;
+    font-weight: normal !important;
 }
 
 @media screen and (max-width: 980px) {
