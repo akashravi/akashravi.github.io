@@ -46,6 +46,6 @@ ul.icons li .icon:before {
 #resume_preview {
     border-style: solid;
     border-width: 2px;
-    border-color: darkgray;
+    border-color: #d1d1d1;
     text-align: center;
 }
