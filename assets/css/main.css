@@ -398,7 +398,7 @@ textarea {
     padding-top: 2.5em;
 }
 
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 1880px) {
     .row {
         display: flex;
         flex-wrap: wrap;
@@ -1188,7 +1188,7 @@ select {
     line-height: 1.75em;
 }
 
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 1880px) {
     body,
     input,
     textarea,
@@ -1916,8 +1916,7 @@ body.is-preload #wrapper {
 }
 
 #main>.panel.intro .pic:hover .arrow {
-    width: 3em;
-    padding-right: 0.25em;
+    width: 2.6em;
 }
 
 #main>.panel.intro header {
