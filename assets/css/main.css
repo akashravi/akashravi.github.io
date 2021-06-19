@@ -353,7 +353,7 @@ textarea {
 }
 
 .row>* {
-    padding: 1.25em 0 0 1.25em;
+    padding: 0.8em 0 0 1.25em;
 }
 
 .row.gtr-uniform {
@@ -548,7 +548,7 @@ textarea {
         margin-left: -1.25em;
     }
     .row>* {
-        padding: 1.25em 0 0 1.25em;
+        padding: 0.8em 0 0 1.25em;
     }
     .row.gtr-uniform {
         margin-top: -1.25em;
@@ -734,7 +734,7 @@ textarea {
         margin-left: -1.25em;
     }
     .row>* {
-        padding: 1.25em 0 0 1.25em;
+        padding: 0.8em 0 0 1.25em;
     }
     .row.gtr-uniform {
         margin-top: -1.25em;
@@ -920,7 +920,7 @@ textarea {
         margin-left: -1.25em;
     }
     .row>* {
-        padding: 1.25em 0 0 1.25em;
+        padding: 0.8em 0 0 1.25em;
     }
     .row.gtr-uniform {
         margin-top: -1.25em;
@@ -1106,7 +1106,7 @@ textarea {
         margin-left: -1.25em;
     }
     .row>* {
-        padding: 1.25em 0 0 1.25em;
+        padding: 0.8em 0 0 1.25em;
     }
     .row.gtr-uniform {
         margin-top: -1.25em;
@@ -1155,9 +1155,9 @@ html {
 }
 
 body {
-    background: #DAE2F8;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #DAE2F8, #D6A4A4);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #DAE2F8, #D6A4A4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #304352;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #304352, #c4c0bb);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #304352, #c4c0bb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
     background-repeat: repeat, no-repeat;
     background-size: auto, 100% 100%;
     background-attachment: fixed;
@@ -1354,7 +1354,7 @@ form textarea {
     -webkit-appearance: none;
     border: 0;
     background: #f4f4f4;
-    padding: 0.6em;
+    padding: 0.5em;
     width: 100%;
     -moz-transition: background-color .25s ease-in-out;
     -webkit-transition: background-color .25s ease-in-out;
@@ -1374,7 +1374,7 @@ form input[type="text"],
 form input[type="email"],
 form input[type="password"],
 form select {
-    line-height: 1.35em;
+    line-height: 1em;
 }
 
 form ::-webkit-input-placeholder {
@@ -1472,12 +1472,12 @@ button,
     transition: background-color .25s ease-in-out;
     -webkit-appearance: none;
     display: inline-block;
-    background-color: #222222;
-    color: #ffffff;
+    background-color: #222;
+    color: #fff;
     border: 0;
     cursor: pointer;
     outline: 0;
-    padding: 0.6em 1.2em 0.6em 1.2em;
+    padding: 0.4em 0.8em 0.4em 0.8em;
 }
 
 input[type="button"]:hover,
@@ -1485,7 +1485,7 @@ input[type="submit"]:hover,
 input[type="reset"]:hover,
 button:hover,
 .button:hover {
-    background-color: #333333;
+    background-color: #333;
 }
 
 input[type="button"]:active,
