@@ -1883,6 +1883,12 @@ body.is-preload #wrapper {
     object-position: center;
 }
 
+@media screen and (max-width: 980px) {
+    #main>.panel.intro .pic img {
+        height: auto;
+    }
+}
+
 #main>.panel.intro .pic .arrow {
     display: block;
     position: absolute;
