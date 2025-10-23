@@ -21,6 +21,22 @@ ul.icons li .icon:before {
     font-size: 1.5em;
 }
 
+/* Improve mobile touch targets */
+@media screen and (max-width: 736px) {
+    #nav a {
+        font-size: 2.8em !important;
+        margin: 0 0.35em;
+    }
+    
+    ul.icons li {
+        padding: 0 0.8em;
+    }
+    
+    ul.icons li .icon:before {
+        font-size: 2em;
+    }
+}
+
 .about-link {
     color: #017cad;
     font-weight: normal;
@@ -43,9 +59,149 @@ ul.icons li .icon:before {
     text-align: center;
 }
 
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Add smooth transitions to links */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    transform: translateY(-2px);
+}
+
+/* Improve form inputs on mobile */
+@media screen and (max-width: 736px) {
+    form input[type="text"],
+    form input[type="email"],
+    form textarea {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 0.75em;
+    }
+    
+    form input[type="submit"] {
+        padding: 0.75em 1.5em;
+        font-size: 1.1em;
+    }
+}
+
+/* Improve link styling */
+.about-link {
+    display: inline-block;
+    padding: 0.5em 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.about-link:hover {
+    color: #0056b3;
+    transform: translateX(5px);
+}
+
+/* Loading state for iframe */
+#resume_preview {
+    transition: opacity 0.3s ease;
+}
+
+#resume_preview[src=""] {
+    opacity: 0.5;
+    background: #f4f4f4;
+}
+
+/* Better image loading */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Improve intro section spacing on mobile */
+@media screen and (max-width: 736px) {
+    #main > .panel.intro header {
+        padding: 2em 1.5em !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    #main > .panel.intro header h1 {
+        font-size: 1.6em !important;
+        margin-bottom: 0.5em;
+    }
+    
+    #main > .panel.intro header p {
+        font-size: 0.9em !important;
+        line-height: 1.5em;
+        margin-bottom: 0.5em;
+    }
+    
+    #main > .panel.intro header p:last-of-type {
+        margin-bottom: 2em !important;
+    }
+    
+    #main > .panel.intro header br {
+        display: none;
+    }
+    
+    #main > .panel.intro header ul.icons {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+/* Better spacing for icon links */
+ul.icons li a {
+    display: inline-block;
+    padding: 0.5em;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+ul.icons li a:hover {
+    transform: scale(1.2);
+    color: #0056b3;
+}
+
+/* Better focus states for accessibility */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid #017cad;
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 #resume_preview {
     border-style: solid;
     border-width: 2px;
     border-color: #d1d1d1;
     text-align: center;
+    min-height: 600px;
+}
+
+/* Responsive iframe height */
+@media screen and (max-width: 980px) {
+    #resume_preview {
+        height: 500px;
+        min-height: 500px;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    #resume_preview {
+        height: 400px;
+        min-height: 400px;
+    }
 }
