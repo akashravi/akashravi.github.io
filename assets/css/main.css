@@ -1413,7 +1413,7 @@ header {
 
 header>p {
     margin: 0.5em 0 0 0;
-    color: #aaa;
+    color: rgb(112, 112, 112);
 }
 
 @media screen and (max-width: 736px) {
@@ -1738,7 +1738,7 @@ ul.actions li:first-child {
 #wrapper {
     width: 45em;
     margin: 0 auto;
-    min-height: 100vh;
+    min-height: 96vh;
     max-width: 100%;
     padding: 4em 0;
     display: -moz-flex;
@@ -1979,7 +1979,7 @@ body.is-preload #wrapper {
 
 @media screen and (max-width: 736px) {
     #main>.panel.intro .pic {
-        height: 20em;
+        height: 24em;
     }
     #main>.panel.intro header {
         padding: 2.75em 2em 2.5em 2em;

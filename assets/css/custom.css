@@ -10,12 +10,9 @@ ul.icons {
 
 ul.icons li {
     display: inline-block;
-    padding: 0 1em 0 0;
+    padding: 0 0.5em 0 0;
 }
 
-ul.icons li:last-child {
-    padding-right: 0;
-}
 
 ul.icons li .icon:before {
     font-size: 1.5em;
@@ -50,7 +47,7 @@ ul.icons li .icon:before {
     
     
     ul.icons li {
-        padding: 0 0.8em;
+        padding: 0 0.5em;
     }
     
     ul.icons li .icon:before {
@@ -65,7 +62,7 @@ ul.icons li .icon:before {
 
 .about-txt {
     font-weight: normal;
-    color: gray;
+    color: rgb(112, 112, 112);
 }
 
 .article-icon {
@@ -153,12 +150,12 @@ img {
     }
     
     #main > .panel.intro header h1 {
-        font-size: 1.65em !important;
+        font-size: 1.8em !important;
         margin-bottom: 0.5em;
     }
     
     #main > .panel.intro header p {
-        font-size: 1em !important;
+        font-size: 1.05em !important;
         line-height: 1.5em;
         margin-bottom: 0.5em;
     }
