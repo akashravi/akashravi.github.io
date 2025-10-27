@@ -1,0 +1,30 @@
+{
+  "name": "akashravi-portfolio",
+  "version": "2.0.0",
+  "description": "Modern personal portfolio website for Akash Ravi",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve . -p 3000",
+    "lint:css": "npx stylelint \"assets/css/**/*.css\"",
+    "lint:html": "npx htmlhint \"*.html\"",
+    "optimize:images": "echo 'Run image optimization tools as needed'",
+    "format": "npx prettier --write \"**/*.{html,css,js,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akashravi/akashravi.github.io"
+  },
+  "keywords": [
+    "portfolio",
+    "personal-website",
+    "github-pages"
+  ],
+  "author": "Akash Ravi",
+  "license": "MIT",
+  "devDependencies": {},
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
+}
