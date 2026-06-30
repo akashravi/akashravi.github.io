@@ -1,15 +1,18 @@
 {
   "name": "akashravi-portfolio",
-  "version": "2.0.0",
-  "description": "Modern personal portfolio website for Akash Ravi",
+  "version": "3.0.0",
+  "description": "Personal portfolio of Akash Ravi — Product Manager II at Microsoft.",
+  "private": true,
+  "homepage": "https://akashravi.github.io",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve .",
-    "dev": "npx serve . -p 3000",
-    "lint:css": "npx stylelint \"assets/css/**/*.css\"",
-    "lint:html": "npx htmlhint \"*.html\"",
-    "optimize:images": "echo 'Run image optimization tools as needed'",
-    "format": "npx prettier --write \"**/*.{html,css,js,json}\""
+    "start": "npx --yes serve .",
+    "dev": "npx --yes serve . -l 3000",
+    "format": "prettier --write \"**/*.{html,css,js,json,webmanifest,md}\"",
+    "format:check": "prettier --check \"**/*.{html,css,js,json,webmanifest,md}\"",
+    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint:html": "htmlhint \"*.html\"",
+    "lint": "npm run lint:css && npm run lint:html && npm run format:check"
   },
   "repository": {
     "type": "git",
@@ -18,13 +21,20 @@
   "keywords": [
     "portfolio",
     "personal-website",
-    "github-pages"
+    "github-pages",
+    "product-management"
   ],
   "author": "Akash Ravi",
   "license": "MIT",
-  "devDependencies": {},
   "browserslist": [
-    "defaults",
-    "not IE 11"
-  ]
+    "last 2 versions",
+    "not dead",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "htmlhint": "1.9.2",
+    "prettier": "3.9.3",
+    "stylelint": "^16.23.0",
+    "stylelint-config-standard": "^39.0.0"
+  }
 }

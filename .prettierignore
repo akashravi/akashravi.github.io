@@ -1,0 +1,15 @@
+node_modules/
+package-lock.json
+assets/fonts/
+assets/icons/
+images/
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.woff
+*.woff2
+LICENSE.txt
+keybase.txt
+sitemap.xml
