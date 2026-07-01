@@ -6,4 +6,11 @@ function gtag() {
   dataLayer.push(arguments);
 }
 gtag("js", new Date());
-gtag("config", "G-4RRVMZ97X0", { anonymize_ip: true });
+/* anonymize_ip + no Google Signals / ad personalization: privacy-friendly, and
+   it stops GA's cross-domain pings to analytics.google.com / doubleclick.net that
+   the strict Content-Security-Policy (rightly) blocks. */
+gtag("config", "G-4RRVMZ97X0", {
+  anonymize_ip: true,
+  allow_google_signals: false,
+  allow_ad_personalization_signals: false,
+});
