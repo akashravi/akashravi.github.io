@@ -61,7 +61,8 @@ npm run format     # prettier --write
 - **Accessible** — semantic landmarks, skip link, visible focus, labelled controls,
   `prefers-reduced-motion`, WCAG-minded contrast in both themes.
 - **Secure** — strict `Content-Security-Policy` (meta), no inline scripts/styles, only
-  self + Google Analytics origins.
+  self + Google Analytics origins; the email address is assembled client-side, so
+  scrapers never see it in the HTML.
 - **Discoverable** — canonical, Open Graph / Twitter cards, JSON-LD `Person`, sitemap.
 - **Fast** — self-hosted preloaded fonts, inline SVG (no icon font), lazy résumé embed.
 

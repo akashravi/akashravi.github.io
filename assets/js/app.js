@@ -215,4 +215,18 @@
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
   });
+
+  /* ---------------------------------------------------------------------------
+     Email links, assembled at runtime so scrapers never see the address in the
+     static HTML. [data-email] elements get a mailto: href; those that also carry
+     [data-email-text] have the address rendered as their text. Without JS they
+     keep their default href (#contact) and fall back to the contact form.
+     ------------------------------------------------------------------------ */
+  var emailAddress = "moc.liamg@ivarkhsaka".split("").reverse().join("");
+  document.querySelectorAll("[data-email]").forEach(function (link) {
+    link.setAttribute("href", "mailto:" + emailAddress);
+    if (link.hasAttribute("data-email-text")) {
+      link.textContent = emailAddress;
+    }
+  });
 })();
