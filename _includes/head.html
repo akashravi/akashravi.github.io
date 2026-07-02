@@ -1,0 +1,48 @@
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://formspree.io; frame-src https://drive.google.com; form-action https://formspree.io; upgrade-insecure-requests"
+/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{%- if page.noindex %}
+<meta name="robots" content="noindex" />
+{%- endif %}
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#f5f6f7" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
+
+<title>{{ page.title }}</title>
+<meta name="description" content="{{ page.description }}" />
+{%- if page.seo %} {% include seo.html %} {%- endif %}
+
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  href="/assets/fonts/inter-latin-wght-normal.woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  href="/assets/fonts/space-grotesk-latin-wght-normal.woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  as="font"
+  type="font/woff2"
+  href="/assets/fonts/jetbrains-mono-latin-wght-normal.woff2"
+  crossorigin
+/>
+<link rel="stylesheet" href="/assets/css/styles.css" />
+<script src="/assets/js/theme-init.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4RRVMZ97X0"></script>
+<script src="/assets/js/analytics.js" defer></script>

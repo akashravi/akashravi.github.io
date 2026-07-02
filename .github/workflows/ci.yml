@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -25,13 +30,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Build (Jekyll)
+        run: bundle exec jekyll build
+
       - name: Prettier (check)
         run: npm run format:check
 
       - name: Stylelint
         run: npm run lint:css
 
-      - name: HTMLHint
+      - name: HTMLHint (built output)
         run: npm run lint:html
 
   lighthouse:
@@ -39,6 +47,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build (Jekyll)
+        run: bundle exec jekyll build
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12

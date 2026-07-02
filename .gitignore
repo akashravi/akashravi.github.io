@@ -3,6 +3,14 @@
 # Dependencies
 node_modules/
 
+# Jekyll build output
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Resolved per-environment (Windows local vs. Linux CI) to avoid native-gem platform locks
+Gemfile.lock
+
 # Build outputs
 dist/
 build/

@@ -6,13 +6,14 @@
   "homepage": "https://akashravi.github.io",
   "main": "index.html",
   "scripts": {
-    "start": "npx --yes serve .",
-    "dev": "npx --yes serve . -l 3000",
+    "start": "bundle exec jekyll serve --livereload",
+    "dev": "bundle exec jekyll serve --livereload --port 3000",
+    "build": "bundle exec jekyll build",
     "format": "prettier --write \"**/*.{html,css,js,json,webmanifest,md}\"",
     "format:check": "prettier --check \"**/*.{html,css,js,json,webmanifest,md}\"",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
-    "lint:html": "htmlhint \"*.html\"",
-    "lint": "npm run lint:css && npm run lint:html && npm run format:check"
+    "lint:html": "htmlhint \"_site/**/*.html\"",
+    "lint": "npm run build && npm run lint:css && npm run lint:html && npm run format:check"
   },
   "repository": {
     "type": "git",

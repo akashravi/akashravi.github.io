@@ -1,0 +1,17 @@
+# Jekyll configuration — GitHub Pages builds the site from these sources.
+# The shared page chrome lives in _layouts/ and _includes/; each page file
+# only carries its own content plus a little front matter.
+title: Akash Ravi
+url: https://akashravi.github.io
+
+# Keep tooling/config out of the built _site output (dotfiles are ignored
+# automatically; these are the non-dotfile dev files).
+exclude:
+  - README.md
+  - LICENSE.txt
+  - package.json
+  - package-lock.json
+  - node_modules
+  - Gemfile
+  - Gemfile.lock
+  - vendor

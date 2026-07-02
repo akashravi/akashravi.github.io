@@ -26,33 +26,51 @@ identity (name, role, location, links) that rarely changes.
 
 HTML5 · modern CSS (custom-property tokens) · vanilla ES5-safe JavaScript ·
 self-hosted variable fonts (Space Grotesk · Inter · JetBrains Mono) · inline SVG icons ·
-GitHub Pages. No framework, no build step, no runtime dependencies.
+GitHub Pages + Jekyll (shared layout & includes, built by GitHub on push). No client-side
+framework, no runtime dependencies.
 
 ## Structure
 
 ```
 .
-├── index.html              # The whole site (hero · about · résumé · elsewhere · contact)
-├── 404.html                # Branded not-found page
+├── index.html              # Home page: front matter + content sections
+├── 404.html                # Not-found page: front matter + content
+├── _config.yml             # Jekyll configuration
+├── _layouts/
+│   └── default.html        # Page skeleton (doctype, <head>, header, footer, scripts)
+├── _includes/
+│   ├── head.html           # Shared <head> — CSP, meta, fonts, theme, GA
+│   ├── header.html         # Brand · nav · theme toggle
+│   ├── footer.html         # Footer
+│   └── seo.html            # Home-only Open Graph / Twitter / JSON-LD
 ├── robots.txt · sitemap.xml
 ├── favicon.ico
 ├── assets/
 │   ├── css/styles.css      # The design system
 │   ├── js/
 │   │   ├── theme-init.js   # No-flash theme (blocking, in <head>)
-│   │   ├── app.js          # Theme toggle, reveal, active nav, form enhancement
+│   │   ├── app.js          # Theme toggle, reveal, active nav, form, email
 │   │   └── analytics.js    # GA4 bootstrap (externalized for CSP)
 │   ├── fonts/              # Self-hosted variable woff2
 │   ├── icons/              # SVG favicon + apple-touch icon
 │   └── og-image.jpg        # 1200×630 social card
-└── .github/workflows/      # CI (lint + Lighthouse), Pages deploy, link check
+└── .github/workflows/      # CI (build + lint + Lighthouse), Pages deploy, link check
 ```
+
+The shared page chrome lives in `_layouts/` and `_includes/`, so `index.html` and
+`404.html` never repeat the `<head>`, header, or footer. Adding a page = one file with
+`layout: default` plus its content.
 
 ## Local development
 
+The site is built with [Jekyll](https://jekyllrb.com/) 4; local preview needs Ruby +
+Bundler.
+
 ```bash
-npm start          # serve the site locally
-npm run lint       # stylelint + htmlhint + prettier --check
+bundle install     # one-time: install Jekyll (from the Gemfile)
+npm start          # bundle exec jekyll serve --livereload → http://localhost:4000
+npm run build      # bundle exec jekyll build → _site/
+npm run lint       # build + stylelint + htmlhint (on _site) + prettier --check
 npm run format     # prettier --write
 ```
 
@@ -68,9 +86,9 @@ npm run format     # prettier --write
 
 ## Deployment
 
-Static site published with GitHub Pages' **Deploy from a branch** (serves `master`).
-A GitHub Actions deploy workflow is also included at `.github/workflows/deploy.yml`; to use
-it, switch **Settings → Pages → Source** to **GitHub Actions**.
+Deployed via **GitHub Actions** — `.github/workflows/deploy.yml` builds the site with
+Jekyll (from the `Gemfile`) and publishes `_site`. One-time setup: **Settings → Pages →
+Source → GitHub Actions**.
 
 ## License
 
