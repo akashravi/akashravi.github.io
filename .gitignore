@@ -8,6 +8,9 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 
+# Ruby / Bundler (CI installs gems here via bundler-cache)
+vendor/
+
 # Resolved per-environment (Windows local vs. Linux CI) to avoid native-gem platform locks
 Gemfile.lock
 
