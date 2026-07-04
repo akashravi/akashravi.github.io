@@ -1,11 +1,18 @@
 version: 2
 updates:
+  # Group each ecosystem's updates into a single weekly PR so related packages
+  # (e.g. stylelint + stylelint-config-standard, which share a peer dependency)
+  # always move together — separate PRs would conflict and fail CI.
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
     commit-message:
       prefix: ci
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: npm
     directory: "/"
@@ -13,3 +20,19 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
+    groups:
+      npm:
+        patterns:
+          - "*"
+
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      bundler:
+        patterns:
+          - "*"
+
