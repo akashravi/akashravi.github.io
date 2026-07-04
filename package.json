@@ -13,7 +13,8 @@
     "format:check": "prettier --check \"**/*.{html,css,js,json,webmanifest,md}\"",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint:html": "htmlhint \"_site/**/*.html\"",
-    "lint": "npm run build && npm run lint:css && npm run lint:html && npm run format:check"
+    "lint": "npm run build && npm run lint:css && npm run lint:html && npm run format:check",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "repository": {
     "type": "git",
@@ -34,8 +35,8 @@
   ],
   "devDependencies": {
     "htmlhint": "1.9.2",
-    "prettier": "3.9.3",
-    "stylelint": "^16.23.0",
-    "stylelint-config-standard": "^39.0.0"
+    "prettier": "3.9.4",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0"
   }
 }

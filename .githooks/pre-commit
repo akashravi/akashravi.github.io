@@ -1,0 +1,17 @@
+#!/bin/sh
+# Auto-format staged files with Prettier so commits are always clean and CI's
+# format check can never fail on a hand-edit (e.g. a stray trailing space).
+# Only staged files are touched, then Prettier's changes are re-staged.
+# Prettier respects .prettierignore, so ignored paths are skipped automatically.
+#
+# Wired up via the "prepare" npm script (git config core.hooksPath .githooks),
+# which runs on `npm install`. Nothing to remember; no extra dependencies.
+
+files=$(git diff --cached --name-only --diff-filter=ACM \
+  -- '*.html' '*.css' '*.js' '*.json' '*.webmanifest' '*.md')
+
+[ -z "$files" ] && exit 0
+
+# Format, then re-stage whatever Prettier changed.
+echo "$files" | xargs npx --no-install prettier --write --ignore-unknown
+echo "$files" | xargs git add

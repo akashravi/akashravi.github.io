@@ -68,11 +68,16 @@ Bundler.
 
 ```bash
 bundle install     # one-time: install Jekyll (from the Gemfile)
+npm install        # one-time: dev tooling + activates the format-on-commit hook
 npm start          # bundle exec jekyll serve --livereload → http://localhost:4000
 npm run build      # bundle exec jekyll build → _site/
 npm run lint       # build + stylelint + htmlhint (on _site) + prettier --check
 npm run format     # prettier --write
 ```
+
+A git pre-commit hook (`.githooks/pre-commit`, wired up by `npm install`) runs Prettier
+on staged files automatically, so commits are always formatted and CI's format check
+can't fail on a stray edit.
 
 ## Highlights
 
