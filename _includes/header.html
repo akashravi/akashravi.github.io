@@ -3,7 +3,25 @@
     <a class="brand" href="{% if page.home %}#top{% else %}/{% endif %}">Akash Ravi</a>
     <div class="nav-right">
       {%- if page.nav %}
-      <nav class="nav-links" aria-label="Primary">
+      <button
+        class="icon-btn nav-toggle"
+        type="button"
+        data-nav-toggle
+        aria-controls="primary-navigation"
+        aria-expanded="false"
+        aria-label="Open navigation"
+      >
+        <svg class="icon menu" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16" />
+          <path d="M4 12h16" />
+          <path d="M4 18h16" />
+        </svg>
+        <svg class="icon close" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m18 6-12 12" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+      <nav id="primary-navigation" class="nav-links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#resume">Résumé</a>
         <a href="#elsewhere">Elsewhere</a>

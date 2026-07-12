@@ -205,7 +205,7 @@ h3 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--paper);
   text-wrap: balance;
 }
@@ -308,12 +308,8 @@ p {
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
-@media (max-width: 33.99em) {
-  .nav-right .nav-links {
-    display: none;
-  }
-}
 .nav .wrap {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -327,7 +323,7 @@ p {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.02rem;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   color: var(--paper);
 }
 .brand:hover {
@@ -368,6 +364,61 @@ p {
   display: flex;
   align-items: center;
   gap: clamp(0.25rem, 1.5vw, 1rem);
+}
+
+.icon-btn.nav-toggle {
+  display: none;
+}
+.nav-toggle .close {
+  display: none;
+}
+.nav-toggle[aria-expanded="true"] .menu {
+  display: none;
+}
+.nav-toggle[aria-expanded="true"] .close {
+  display: block;
+}
+@media (max-width: 33.99em) {
+  .js .nav-toggle {
+    display: inline-grid;
+  }
+  .js .nav-right .nav-links {
+    position: absolute;
+    top: calc(100% + 0.8rem);
+    right: 0;
+    display: none;
+    width: min(16rem, calc(100vw - 2.3rem));
+    padding: 0.55rem;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .js .nav-right .nav-links.open {
+    display: grid;
+  }
+  .js .nav-links a {
+    padding: 0.7rem 0.8rem;
+  }
+  .js .nav-links a.active::after {
+    left: 0.8rem;
+    right: auto;
+    width: 1.5rem;
+  }
+  :root:not(.js) .brand,
+  :root:not(.js) .theme-toggle {
+    display: none;
+  }
+  :root:not(.js) .nav .wrap {
+    justify-content: center;
+  }
+  :root:not(.js) .nav-links {
+    gap: 0;
+  }
+  :root:not(.js) .nav-links a {
+    padding-inline: 0.45em;
+    font-size: var(--step--2);
+  }
 }
 
 /* 7. Buttons & links ------------------------------------------------------ */
@@ -520,7 +571,7 @@ p {
   font-size: var(--step-5);
   font-weight: 600;
   line-height: 0.98;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   margin-top: 0.5rem;
 }
 .hero-tagline {
@@ -684,6 +735,11 @@ p {
   height: 100%;
   border: 0;
   z-index: 1;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.doc-frame iframe.loaded {
+  opacity: 1;
 }
 .doc-frame .placeholder {
   position: absolute;

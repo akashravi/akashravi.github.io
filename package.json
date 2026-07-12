@@ -11,9 +11,10 @@
     "build": "bundle exec jekyll build",
     "format": "prettier --write \"**/*.{html,css,js,json,webmanifest,md}\"",
     "format:check": "prettier --check \"**/*.{html,css,js,json,webmanifest,md}\"",
+    "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint:html": "htmlhint \"_site/**/*.html\"",
-    "lint": "npm run build && npm run lint:css && npm run lint:html && npm run format:check",
+    "lint": "npm run build && npm run lint:js && npm run lint:css && npm run lint:html && npm run format:check",
     "prepare": "git config core.hooksPath .githooks"
   },
   "repository": {
@@ -35,7 +36,7 @@
   ],
   "devDependencies": {
     "htmlhint": "1.9.2",
-    "prettier": "3.9.4",
+    "prettier": "3.9.5",
     "stylelint": "^17.14.0",
     "stylelint-config-standard": "^40.0.0"
   }

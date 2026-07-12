@@ -71,6 +71,39 @@
   });
 
   /* ---------------------------------------------------------------------------
+     Compact navigation menu on narrow screens.
+     ------------------------------------------------------------------------ */
+  var navToggle = document.querySelector("[data-nav-toggle]");
+  var primaryNav = document.getElementById("primary-navigation");
+  if (navToggle && primaryNav) {
+    var setNavOpen = function (open) {
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      primaryNav.classList.toggle("open", open);
+    };
+
+    navToggle.addEventListener("click", function () {
+      setNavOpen(navToggle.getAttribute("aria-expanded") !== "true");
+    });
+    primaryNav.addEventListener("click", function (event) {
+      if (event.target.closest("a")) setNavOpen(false);
+    });
+    document.addEventListener("click", function (event) {
+      if (!navToggle.contains(event.target) && !primaryNav.contains(event.target))
+        setNavOpen(false);
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+        setNavOpen(false);
+        navToggle.focus();
+      }
+    });
+    window.matchMedia("(min-width: 34em)").addEventListener("change", function (event) {
+      if (event.matches) setNavOpen(false);
+    });
+  }
+
+  /* ---------------------------------------------------------------------------
      Sticky header shadow once scrolled past the top.
      ------------------------------------------------------------------------ */
   var header = document.querySelector(".nav");
@@ -106,6 +139,51 @@
       revealEls.forEach(function (el) {
         el.classList.add("in");
       });
+    }
+  }
+
+  /* ---------------------------------------------------------------------------
+     Load the third-party résumé viewer only when it is close to the viewport.
+     Native iframe lazy-loading starts too early for this large embed.
+     ------------------------------------------------------------------------ */
+  var resumeFrame = document.querySelector("[data-resume-frame]");
+  if (resumeFrame) {
+    var resumePlaceholder = document.querySelector("[data-resume-placeholder]");
+    var resumeSpinner = document.querySelector("[data-resume-spinner]");
+    var resumeStatus = document.querySelector("[data-resume-status]");
+    var loadResume = function () {
+      if (resumeFrame.getAttribute("src")) return;
+      if (resumeSpinner) resumeSpinner.hidden = false;
+      if (resumeStatus) resumeStatus.textContent = "loading résumé…";
+      resumeFrame.addEventListener(
+        "load",
+        function () {
+          resumeFrame.classList.add("loaded");
+          if (resumePlaceholder) resumePlaceholder.hidden = true;
+        },
+        { once: true },
+      );
+      resumeFrame.hidden = false;
+      resumeFrame.setAttribute("src", resumeFrame.getAttribute("data-src"));
+    };
+
+    if ("IntersectionObserver" in window) {
+      var resumeObserver = new IntersectionObserver(
+        function (entries, observer) {
+          if (
+            entries.some(function (entry) {
+              return entry.isIntersecting;
+            })
+          ) {
+            loadResume();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "200px 0px", threshold: 0 },
+      );
+      resumeObserver.observe(resumeFrame.parentElement);
+    } else {
+      loadResume();
     }
   }
 

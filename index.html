@@ -155,9 +155,9 @@ description: "Akash Ravi is a product manager on Microsoft's SharePoint AI, evol
 
     <div class="doc" data-reveal>
       <div class="doc-frame">
-        <div class="placeholder">
-          <span class="spinner" aria-hidden="true"></span>
-          <span>loading résumé…</span>
+        <div class="placeholder" data-resume-placeholder>
+          <span class="spinner" data-resume-spinner aria-hidden="true" hidden></span>
+          <span data-resume-status>résumé preview</span>
           <a
             class="link"
             href="https://drive.google.com/file/d/1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt/view"
@@ -168,8 +168,10 @@ description: "Akash Ravi is a product manager on Microsoft's SharePoint AI, evol
         </div>
         <iframe
           title="Akash Ravi résumé"
-          src="https://drive.google.com/file/d/1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt/preview"
+          data-resume-frame
+          data-src="https://drive.google.com/file/d/1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt/preview"
           loading="lazy"
+          hidden
         ></iframe>
       </div>
     </div>

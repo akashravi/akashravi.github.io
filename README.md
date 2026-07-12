@@ -27,7 +27,8 @@ identity (name, role, location, links) that rarely changes.
 HTML5 · modern CSS (custom-property tokens) · vanilla ES5-safe JavaScript ·
 self-hosted variable fonts (Space Grotesk · Inter · JetBrains Mono) · inline SVG icons ·
 GitHub Pages + Jekyll (shared layout & includes, built by GitHub on push). No client-side
-framework, no runtime dependencies.
+framework or client-side runtime dependencies. Ruby build dependencies are checksum-locked
+for Windows development and Linux CI.
 
 ## Structure
 
@@ -71,7 +72,7 @@ bundle install     # one-time: install Jekyll (from the Gemfile)
 npm install        # one-time: dev tooling + activates the format-on-commit hook
 npm start          # bundle exec jekyll serve --livereload → http://localhost:4000
 npm run build      # bundle exec jekyll build → _site/
-npm run lint       # build + stylelint + htmlhint (on _site) + prettier --check
+npm run lint       # build + JS/CSS/HTML checks + prettier --check
 npm run format     # prettier --write
 ```
 
@@ -87,7 +88,8 @@ can't fail on a stray edit.
   self + Google Analytics origins; the email address is assembled client-side, so
   scrapers never see it in the HTML.
 - **Discoverable** — canonical, Open Graph / Twitter cards, JSON-LD `Person`, sitemap.
-- **Fast** — self-hosted preloaded fonts, inline SVG (no icon font), lazy résumé embed.
+- **Fast** — self-hosted preloaded fonts, inline SVG (no icon font), and a résumé viewer
+  that loads only when its section approaches the viewport.
 
 ## Deployment
 
