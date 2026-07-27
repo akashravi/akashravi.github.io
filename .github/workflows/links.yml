@@ -1,4 +1,8 @@
-# Weekly broken-link check across the HTML pages and README.
+# Weekly broken-link check across the built site and the README.
+#
+# It checks _site rather than the sources because page URLs now come from
+# _data/profiles.yml and _config.yml via Liquid — only the built output has the
+# real hrefs, and it's what visitors actually get.
 name: Links
 
 on:
@@ -15,10 +19,35 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Build (Jekyll)
+        run: bundle exec jekyll build
+
       - name: Check links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+        env:
+          # Authenticated GitHub API calls, so github.com links aren't rejected by
+          # the much lower unauthenticated rate limit.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # Formspree rejects GET checks; LinkedIn returns a bot-blocking 999.
-          args: "--no-progress --max-concurrency 4 --root-dir . --exclude '^https://formspree\\.io/f/xknkdzry$' --exclude '^https://www\\.linkedin\\.com/in/akash-ravi/?$' *.html README.md"
+          # 403/429 mean "this host blocks bots", not "this link is dead". Several
+          # of the linked sites (Google Scholar, Codeforces, HackerEarth) sit behind
+          # bot protection and answer 403 at random, which is what used to fail this
+          # job for no real reason. Genuine breakage — 404/410, 5xx, DNS errors,
+          # timeouts — still fails. Hosts that can't be checked at all, because they
+          # reject GET outright, are listed in .lycheeignore.
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --max-retries 3
+            --retry-wait-time 10
+            --timeout 30
+            --accept 200..=299,403,429
+            --root-dir "${{ github.workspace }}/_site"
+            "_site/**/*.html" README.md
           fail: true
           jobSummary: true

@@ -4,6 +4,13 @@
 title: Akash Ravi
 url: https://akashravi.github.io
 
+# Google Drive file id for the résumé — the site embeds and links to it, so this
+# is the only thing to change if the résumé ever moves to a different file.
+resume_id: 1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt
+
+# Social-card copy, shared by the Open Graph and Twitter tags in _includes/seo.html.
+social_description: "Product leader on Microsoft's SharePoint AI — hybrid search, retrieval, and ranking across Microsoft 365 and Copilot."
+
 # Keep tooling/config out of the built _site output (dotfiles are ignored
 # automatically; these are the non-dotfile dev files).
 exclude:

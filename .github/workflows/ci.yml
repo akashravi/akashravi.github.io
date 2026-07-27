@@ -1,4 +1,4 @@
-# Quality gates: formatting, CSS/HTML linting, and Lighthouse budgets.
+# Quality gates: build, formatting, CSS/HTML linting, and Lighthouse budgets.
 # Purely additive — never deploys, so it can't affect the live site.
 name: CI
 
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  lint:
-    name: Lint & format
+  check:
+    name: Build, lint & Lighthouse
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -30,31 +30,9 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (Jekyll)
-        run: bundle exec jekyll build
-
-      - name: Prettier (check)
-        run: npm run format:check
-
-      - name: Stylelint
-        run: npm run lint:css
-
-      - name: HTMLHint (built output)
-        run: npm run lint:html
-
-  lighthouse:
-    name: Lighthouse CI
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
-        with:
-          ruby-version: "3.4"
-          bundler-cache: true
-
-      - name: Build (Jekyll)
-        run: bundle exec jekyll build
+      # Builds _site, then runs every check against it (htmlhint lints the
+      # built output, Lighthouse serves it as a static directory).
+      - run: npm run lint
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12

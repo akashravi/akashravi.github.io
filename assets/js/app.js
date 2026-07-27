@@ -14,6 +14,7 @@
      No stored preference => follows the OS via prefers-color-scheme.
      ------------------------------------------------------------------------ */
   var STORAGE_KEY = "theme";
+  var themeToggles = document.querySelectorAll("[data-theme-toggle]");
 
   function systemTheme() {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -23,6 +24,14 @@
     return root.getAttribute("data-theme") || systemTheme();
   }
 
+  function syncToggles(theme) {
+    var dark = theme === "dark";
+    themeToggles.forEach(function (btn) {
+      btn.setAttribute("aria-pressed", String(dark));
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+    });
+  }
+
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     try {
@@ -30,13 +39,7 @@
     } catch (e) {
       /* storage unavailable (private mode) — non-fatal */
     }
-    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-      btn.setAttribute("aria-pressed", String(theme === "dark"));
-      btn.setAttribute(
-        "aria-label",
-        theme === "dark" ? "Switch to light theme" : "Switch to dark theme",
-      );
-    });
+    syncToggles(theme);
   }
 
   function toggleTheme() {
@@ -50,14 +53,10 @@
     }
   }
 
-  document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+  themeToggles.forEach(function (btn) {
     btn.addEventListener("click", toggleTheme);
-    btn.setAttribute("aria-pressed", String(currentTheme() === "dark"));
-    btn.setAttribute(
-      "aria-label",
-      currentTheme() === "dark" ? "Switch to light theme" : "Switch to dark theme",
-    );
   });
+  syncToggles(currentTheme());
 
   /* Keep auto-mode pages in sync if the OS theme changes mid-session. */
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {

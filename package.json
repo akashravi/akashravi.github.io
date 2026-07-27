@@ -4,36 +4,23 @@
   "description": "Personal portfolio of Akash Ravi — Product Manager II at Microsoft.",
   "private": true,
   "homepage": "https://akashravi.github.io",
-  "main": "index.html",
+  "author": "Akash Ravi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akashravi/akashravi.github.io"
+  },
   "scripts": {
     "start": "bundle exec jekyll serve --livereload",
-    "dev": "bundle exec jekyll serve --livereload --port 3000",
     "build": "bundle exec jekyll build",
-    "format": "prettier --write \"**/*.{html,css,js,json,webmanifest,md}\"",
-    "format:check": "prettier --check \"**/*.{html,css,js,json,webmanifest,md}\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint:html": "htmlhint \"_site/**/*.html\"",
     "lint": "npm run build && npm run lint:js && npm run lint:css && npm run lint:html && npm run format:check",
     "prepare": "git config core.hooksPath .githooks"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/akashravi/akashravi.github.io"
-  },
-  "keywords": [
-    "portfolio",
-    "personal-website",
-    "github-pages",
-    "product-management"
-  ],
-  "author": "Akash Ravi",
-  "license": "MIT",
-  "browserslist": [
-    "last 2 versions",
-    "not dead",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "htmlhint": "1.9.2",
     "prettier": "3.9.6",

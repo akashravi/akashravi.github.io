@@ -17,8 +17,13 @@ Google Drive.** The résumé is embedded live from Drive — update the PDF and 
 reflects it automatically, no code change needed. Everything else in the page is stable
 identity (name, role, location, links) that rarely changes.
 
-- **Change the résumé** → just replace/update the PDF in Google Drive.
-- **Change identity copy / links** → edit `index.html` (one file).
+- **Change the résumé** → just replace/update the PDF in Google Drive. (If it ever moves
+  to a _different_ Drive file, update `resume_id` in `_config.yml` — one line.)
+- **Change the "Elsewhere" links** → edit `_data/profiles.yml`, a plain list of
+  `name` / `detail` / `url` / `icon`. No markup to touch.
+- **Change identity copy** → edit `index.html` (one file).
+- **Add or change an icon** → edit `_includes/icon.html`, where every inline SVG in the
+  site is defined exactly once.
 - **Change colors / type / spacing** → edit the design tokens in `:root` (and the dark
   overrides) at the top of `assets/css/styles.css`.
 
@@ -36,14 +41,18 @@ for Windows development and Linux CI.
 .
 ├── index.html              # Home page: front matter + content sections
 ├── 404.html                # Not-found page: front matter + content
-├── _config.yml             # Jekyll configuration
+├── _config.yml             # Jekyll configuration (incl. the résumé's Drive id)
+├── _data/
+│   └── profiles.yml        # The "Elsewhere" links, as data
 ├── _layouts/
 │   └── default.html        # Page skeleton (doctype, <head>, header, footer, scripts)
 ├── _includes/
 │   ├── head.html           # Shared <head> — CSP, meta, fonts, theme, GA
 │   ├── header.html         # Brand · nav · theme toggle
 │   ├── footer.html         # Footer
-│   └── seo.html            # Home-only Open Graph / Twitter / JSON-LD
+│   ├── seo.html            # Home-only Open Graph / Twitter / JSON-LD
+│   ├── icon.html           # Every inline SVG icon, defined once
+│   └── social-links.html   # LinkedIn · GitHub · email trio (hero, contact, footer)
 ├── robots.txt · sitemap.xml
 ├── favicon.ico
 ├── assets/
@@ -60,7 +69,8 @@ for Windows development and Linux CI.
 
 The shared page chrome lives in `_layouts/` and `_includes/`, so `index.html` and
 `404.html` never repeat the `<head>`, header, or footer. Adding a page = one file with
-`layout: default` plus its content.
+`layout: default` plus its content; set `home: true` on a page to opt into the section
+nav, the social links, and the SEO/Open Graph block.
 
 ## Local development
 
@@ -96,6 +106,11 @@ can't fail on a stray edit.
 Deployed via **GitHub Actions** — `.github/workflows/deploy.yml` builds the site with
 Jekyll (from the `Gemfile`) and publishes `_site`. One-time setup: **Settings → Pages →
 Source → GitHub Actions**.
+
+`ci.yml` runs the same build plus every lint and the Lighthouse budgets on each push and
+pull request. `links.yml` checks for broken links weekly; hosts that bot-block link
+checkers answer with a 403/429 and are accepted rather than treated as failures, and
+hosts that can't be checked at all are listed in `.lycheeignore`.
 
 ## License
 

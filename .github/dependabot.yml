@@ -35,4 +35,3 @@ updates:
       bundler:
         patterns:
           - "*"
-

@@ -1,0 +1,9 @@
+# Hosts that cannot be link-checked at all. Sites that merely bot-block with a
+# 403/429 don't belong here — those are handled by --accept in links.yml.
+# Entries are regular expressions.
+
+# Formspree's form endpoint is POST-only; a GET check is always rejected.
+^https://formspree\.io/f/
+
+# LinkedIn answers non-browser clients with HTTP 999.
+^https://www\.linkedin\.com/
