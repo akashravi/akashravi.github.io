@@ -3,14 +3,6 @@
 # Dependencies
 node_modules/
 
-# Jekyll build output
-_site/
-.jekyll-cache/
-.jekyll-metadata
-
-# Ruby / Bundler (CI installs gems here via bundler-cache)
-vendor/
-
 # Build outputs
 dist/
 build/
@@ -40,6 +32,8 @@ yarn-error.log*
 coverage/
 .nyc_output/
 .lighthouseci/
+test-results/
+playwright-report/
 
 # Temporary files
 *.tmp

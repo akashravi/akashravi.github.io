@@ -7,8 +7,10 @@
 
 **Live:** [akashravi.github.io](https://akashravi.github.io)
 
-A single-page, framework-free static site with an editorial ink-and-amber aesthetic,
-a monospaced "spec sheet" signature, and a light/dark theme.
+A framework-free portfolio with a warm editorial design, a monospaced "spec sheet"
+signature, and accessible themes: warm off-white in light mode, near-black charcoal
+with layered surfaces and rose accents in dark mode. One toolchain: **Node.js**. No Ruby,
+Jekyll, browser framework, bundler, or client-side dependencies.
 
 ## The one thing to maintain: the résumé
 
@@ -18,42 +20,37 @@ reflects it automatically, no code change needed. Everything else in the page is
 identity (name, role, location, links) that rarely changes.
 
 - **Change the résumé** → just replace/update the PDF in Google Drive. (If it ever moves
-  to a _different_ Drive file, update `resume_id` in `_config.yml` — one line.)
-- **Change the "Elsewhere" links** → edit `_data/profiles.yml`, a plain list of
-  `name` / `detail` / `url` / `icon`. No markup to touch.
-- **Change identity copy** → edit `index.html` (one file).
-- **Add or change an icon** → edit `_includes/icon.html`, where every inline SVG in the
-  site is defined exactly once.
-- **Change colors / type / spacing** → edit the design tokens in `:root` (and the dark
-  overrides) at the top of `assets/css/styles.css`.
+  to a _different_ Drive file, update `resumeId` in `src/data/site.json`.)
+- **Change profiles** → edit `src/data/profiles.json`. Set `social: true` to show a
+  profile in the hero, contact section, and footer as well.
+- **Change copy** → edit `src/pages/index.html`; titles, descriptions, structured
+  identity data, and the site URL live in `src/data/site.json`.
+- **Add or change an icon** → edit `assets/icons/sprite.svg`. Each `<symbol>` is
+  defined once and available to templates as `{{{icons.symbol-id}}}`.
+- **Change colors / type / spacing** → edit the tokens in `assets/css/styles.css`.
 
 ## Stack
 
-HTML5 · modern CSS (custom-property tokens) · vanilla ES5-safe JavaScript ·
-self-hosted variable fonts (Space Grotesk · Inter · JetBrains Mono) · inline SVG icons ·
-GitHub Pages + Jekyll (shared layout & includes, built by GitHub on push). No client-side
-framework or client-side runtime dependencies. Ruby build dependencies are checksum-locked
-for Windows development and Linux CI.
+HTML5 · CSS custom properties · vanilla JavaScript · system fonts · shared SVG
+sprite. A small Node build uses **Mustache**, its only build dependency, to render
+HTML templates and JSON content into `dist/`. The browser receives plain HTML, CSS,
+JavaScript, and images. Node's built-in HTTP server handles local preview.
 
 ## Structure
 
 ```
 .
-├── index.html              # Home page: front matter + content sections
-├── 404.html                # Not-found page: front matter + content
-├── _config.yml             # Jekyll configuration (incl. the résumé's Drive id)
-├── _data/
-│   └── profiles.yml        # The "Elsewhere" links, as data
-├── _layouts/
-│   └── default.html        # Page skeleton (doctype, <head>, header, footer, scripts)
-├── _includes/
-│   ├── head.html           # Shared <head> — CSP, meta, fonts, theme, GA
-│   ├── header.html         # Brand · nav · theme toggle
-│   ├── footer.html         # Footer
-│   ├── seo.html            # Home-only Open Graph / Twitter / JSON-LD
-│   ├── icon.html           # Every inline SVG icon, defined once
-│   └── social-links.html   # LinkedIn · GitHub · email trio (hero, contact, footer)
-├── robots.txt · sitemap.xml
+├── src/
+│   ├── layout.html         # Shared page shell
+│   ├── pages/              # Page content: index.html, 404.html, future pages
+│   ├── partials/           # Shared head, header, footer, SEO, social links
+│   └── data/
+│       ├── site.json       # Site settings, page registry, résumé id, SEO identity
+│       └── profiles.json   # Profile links and social navigation
+├── scripts/
+│   ├── build.mjs           # Render templates, copy public assets, generate sitemap
+│   └── serve.mjs           # Local HTTP preview, optional source watching
+├── tests/                  # Browser regression checks, no real form submissions
 ├── favicon.ico
 ├── assets/
 │   ├── css/styles.css      # The design system
@@ -61,56 +58,89 @@ for Windows development and Linux CI.
 │   │   ├── theme-init.js   # No-flash theme (blocking, in <head>)
 │   │   ├── app.js          # Theme toggle, reveal, active nav, form, email
 │   │   └── analytics.js    # GA4 bootstrap (externalized for CSP)
-│   ├── fonts/              # Self-hosted variable woff2
-│   ├── icons/              # SVG favicon + apple-touch icon
+│   ├── icons/              # SVG sprite, favicon, apple-touch icon
 │   └── og-image.jpg        # 1200×630 social card
-└── .github/workflows/      # CI (build + lint + Lighthouse), Pages deploy, link check
+├── images/                 # Portrait
+├── dist/                   # Generated static site; never edit or commit
+└── .github/workflows/      # Existing free public-repo checks and Pages publishing
 ```
 
-The shared page chrome lives in `_layouts/` and `_includes/`, so `index.html` and
-`404.html` never repeat the `<head>`, header, or footer. Adding a page = one file with
-`layout: default` plus its content; set `home: true` on a page to opt into the section
-nav, the social links, and the SEO/Open Graph block.
+**Adding a page:** create its content in `src/pages/` and add a `file`, `title`, and
+`description` entry to `pages` in `src/data/site.json`. Nested paths such as
+`writing/index.html` work too. Every page gets the shared layout and canonical URL.
+Public pages are included in the generated sitemap; `noindex: true` excludes utility
+pages. Only the portfolio homepage needs `home: true`.
+
+Templates use ordinary Mustache sections and partials. Text and attributes are escaped
+by default; triple braces are reserved for trusted rendered HTML, icons, and generated
+JSON-LD. Keep page-specific enhancements in vanilla JavaScript; no framework is needed
+to add another content section or page.
 
 ## Local development
 
-The site is built with [Jekyll](https://jekyllrb.com/) 4; local preview needs Ruby +
-Bundler.
+Install **Node.js 22 or newer** (Node 24 is used by the workflows).
 
 ```bash
-bundle install     # one-time: install Jekyll (from the Gemfile)
-npm install        # one-time: dev tooling + activates the format-on-commit hook
-npm start          # bundle exec jekyll serve --livereload → http://localhost:4000
-npm run build      # bundle exec jekyll build → _site/
+npm ci             # install the locked development/build tools
+npm start          # http://127.0.0.1:4000; rebuilds when content/assets change
+npm run build      # production HTML + public assets → dist/
+npm run preview    # build and preview without watching
 npm run lint       # build + JS/CSS/HTML checks + prettier --check
 npm run format     # prettier --write
+npx playwright install           # one-time Chromium, Firefox, WebKit setup
+npm test           # unit + browser regressions; manages its own local server
 ```
 
-A git pre-commit hook (`.githooks/pre-commit`, wired up by `npm install`) runs Prettier
-on staged files automatically, so commits are always formatted and CI's format check
-can't fail on a stray edit.
+Refresh the browser after a rebuild. Set the `PORT` environment variable to use a
+different local port. The preview server binds only to localhost and returns the
+custom 404 page with an actual 404 status.
+Only the localhost preview omits CSP's HTTPS-upgrade directive so Safari can load
+local HTTP assets; production output keeps the full policy.
+
+Formatting is explicit rather than an auto-restaging commit hook: `npm run format`
+never changes your Git index or unexpectedly stages work.
+
+Browser checks cover themes, responsive navigation, résumé loading/recovery, form
+success/errors/timeouts, email copying, progressive enhancement, print, and generated
+output. Third-party requests are mocked; tests do not send messages or load analytics.
+To use an installed Chrome/Edge instead of downloading Chromium, set
+`PLAYWRIGHT_CHANNEL` to `chrome` or `msedge` before
+`npx playwright test --project=chromium`. Full browser checks also cover Firefox and WebKit.
 
 ## Highlights
 
 - **Accessible** — semantic landmarks, skip link, visible focus, labelled controls,
   `prefers-reduced-motion`, WCAG-minded contrast in both themes.
-- **Secure** — strict `Content-Security-Policy` (meta), no inline scripts/styles, only
-  self + Google Analytics origins; the email address is assembled client-side, so
-  scrapers never see it in the HTML.
+- **Resilient** — content stays visible if enhancement scripts fail; preview timeouts
+  offer a retry and an independent résumé link; contact failures preserve your draft.
+- **Secure** — strict `Content-Security-Policy` (meta), no inline executable scripts
+  or styles. Email links are assembled client-side (obfuscation, not a security control).
 - **Discoverable** — canonical, Open Graph / Twitter cards, JSON-LD `Person`, sitemap.
-- **Fast** — self-hosted preloaded fonts, inline SVG (no icon font), and a résumé viewer
-  that loads only when its section approaches the viewport.
+- **Fast** — zero font downloads, one cached SVG sprite, no browser libraries, and a
+  responsive WebP portrait with a JPEG fallback. Hero content appears immediately;
+  the résumé viewer only loads when its section approaches the viewport.
+- **Useful** — résumé open/download actions, copy-email with accessible feedback,
+  current-section navigation, printable content, and a back-to-top link.
+- **Privacy-aware** — analytics is deferred until interaction, skipped locally, and
+  disabled when Do Not Track or Global Privacy Control is enabled.
 
 ## Deployment
 
 Deployed via **GitHub Actions** — `.github/workflows/deploy.yml` builds the site with
-Jekyll (from the `Gemfile`) and publishes `_site`. One-time setup: **Settings → Pages →
+Node and publishes `dist` on pushes to `main`. One-time setup: **Settings → Pages →
 Source → GitHub Actions**.
 
-`ci.yml` runs the same build plus every lint and the Lighthouse budgets on each push and
-pull request. `links.yml` checks for broken links weekly; hosts that bot-block link
+`ci.yml` runs the build, lints, browser regressions, and Lighthouse budgets for both
+themes on each push and pull request. Accessible link names must match their visible
+text. Performance uses the median of three runs; the other budgets must hold in
+every run. The workflows use standard Ubuntu runners for this public repository.
+`links.yml` checks for broken links weekly; hosts that bot-block link
 checkers answer with a 403/429 and are accepted rather than treated as failures, and
-hosts that can't be checked at all are listed in `.lycheeignore`.
+hosts that can't be checked at all are listed in `.lycheeignore`. Deploying to another
+static host only requires publishing `dist/`; no Node server is needed in production.
+
+The portrait variants in `images/` share the same crop and aspect ratio. Replace the
+JPEG and both WebP sizes together when updating the photo, along with the social card.
 
 ## License
 

@@ -1,13 +1,11 @@
 # Deploys the static site to GitHub Pages with the official Pages Actions flow.
 #
 # One-time setup: Settings → Pages → "Build and deployment" → Source → "GitHub Actions".
-# (The repo currently uses "Deploy from a branch"; switching to "GitHub Actions"
-# activates this workflow. Until then the branch-based deploy keeps the site live.)
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 # Allow only one concurrent deployment; don't cancel an in-progress production deploy.
@@ -23,26 +21,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
         with:
-          ruby-version: "3.4"
-          bundler-cache: true
+          persist-credentials: false
 
-      - name: Configure Pages
-        id: pages
-        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: npm
 
-      - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
+      - name: Install build dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build static site
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
-          path: "_site"
+          path: "dist"
 
   deploy:
     needs: build
@@ -56,4 +53,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

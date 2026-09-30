@@ -1,0 +1,18 @@
+<ul class="social-links" aria-label="Social links">
+  {{#socialLinks}}
+  <li>
+    <a
+      class="icon-btn"
+      href="{{url}}"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="{{name}} (opens in a new tab)"
+    >
+      {{{iconMarkup}}}
+    </a>
+  </li>
+  {{/socialLinks}}
+  <li>
+    <a class="icon-btn" href="#contact" data-email aria-label="Email Akash"> {{{icons.mail}}} </a>
+  </li>
+</ul>

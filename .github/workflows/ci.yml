@@ -1,10 +1,10 @@
-# Quality gates: build, formatting, CSS/HTML linting, and Lighthouse budgets.
+# Quality gates: build, formatting, linting, browser regressions, and Lighthouse budgets.
 # Purely additive — never deploys, so it can't affect the live site.
 name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -13,26 +13,29 @@ permissions:
 
 jobs:
   check:
-    name: Build, lint & Lighthouse
+    name: Build, lint, test & Lighthouse
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
         with:
-          ruby-version: "3.4"
-          bundler-cache: true
+          persist-credentials: false
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
-      # Builds _site, then runs every check against it (htmlhint lints the
+      # Builds dist, then runs every check against it (htmlhint lints the
       # built output, Lighthouse serves it as a static directory).
       - run: npm run lint
+
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Check portfolio interactions
+        run: npm test
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12

@@ -1,8 +1,8 @@
-<header class="nav">
+<header class="nav{{#home}} nav-home{{/home}}">
   <div class="wrap">
-    <a class="brand" href="{% if page.home %}#top{% else %}/{% endif %}">Akash Ravi</a>
+    <a class="brand" href="{{homeLink}}">Akash Ravi</a>
     <div class="nav-right">
-      {%- if page.home %}
+      {{#home}}
       <button
         class="icon-btn nav-toggle"
         type="button"
@@ -11,16 +11,15 @@
         aria-expanded="false"
         aria-label="Open navigation"
       >
-        {%- include icon.html name="menu" class="menu" -%} {%- include icon.html name="close"
-        class="close" -%}
+        {{{icons.menu}}} {{{icons.close}}}
       </button>
       <nav id="primary-navigation" class="nav-links" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#resume">Résumé</a>
-        <a href="#elsewhere">Elsewhere</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" tabindex="0">About</a>
+        <a href="#resume" tabindex="0">Résumé</a>
+        <a href="#elsewhere" tabindex="0">Elsewhere</a>
+        <a href="#contact" tabindex="0">Contact</a>
       </nav>
-      {%- endif %}
+      {{/home}}
       <button
         class="icon-btn theme-toggle"
         type="button"
@@ -28,8 +27,7 @@
         aria-label="Switch theme"
         aria-pressed="false"
       >
-        {%- include icon.html name="sun" class="sun" -%} {%- include icon.html name="moon"
-        class="moon" -%}
+        {{{icons.sun}}} {{{icons.moon}}}
       </button>
     </div>
   </div>

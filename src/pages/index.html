@@ -1,0 +1,261 @@
+<!-- Hero -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="label">Product Manager · Microsoft</p>
+        <h1 id="hero-title">Akash Ravi</h1>
+        <p class="hero-tagline">
+          Product leader with <b>6+ years</b> across AI platforms and enterprise software — turning
+          deep technical work into products people actually use.
+        </p>
+        <p class="hero-loc">{{{icons.pin}}} Seattle, WA</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#resume"> View résumé {{{icons.arrow-up-right}}} </a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        {{>social-links}}
+      </div>
+
+      <figure class="portrait">
+        <picture>
+          <source
+            type="image/webp"
+            srcset="/images/akash-300.webp 300w, /images/akash-600.webp 600w"
+            sizes="17rem"
+          />
+          <img
+            src="/images/akash.jpg"
+            alt="Portrait of Akash Ravi"
+            width="600"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+        <figcaption class="mono">// Flibbertigibbeting...</figcaption>
+      </figure>
+    </div>
+
+    <dl class="spec">
+      <div class="spec-row">
+        <dt>Now</dt>
+        <dd>Product Manager · <b>SharePoint AI</b> @ Microsoft</dd>
+      </div>
+      <div class="spec-row">
+        <dt>Focus</dt>
+        <dd>Hybrid search · AI Agents · Information Architecture</dd>
+      </div>
+      <div class="spec-row">
+        <dt>Before</dt>
+        <dd>Cisco · CERN · EY · Purdue</dd>
+      </div>
+      <div class="spec-row">
+        <dt>Based</dt>
+        <dd>Seattle, Washington</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="label">About</p>
+      <h2 id="about-title">Product, built close to the code.</h2>
+    </div>
+    <div class="focus-grid" aria-label="What I bring">
+      <article class="focus-card" data-reveal>
+        <p class="label">Product</p>
+        <h3>From idea to impact.</h3>
+        <p>
+          Turning complex problems into useful products — from the first sketch to launch and
+          adoption.
+        </p>
+      </article>
+      <article class="focus-card" data-reveal>
+        <p class="label">Engineering</p>
+        <h3>Built on technical depth.</h3>
+        <p>
+          Hands-on roots in software, security, and large-scale computing. A builder's perspective
+          on what's possible.
+        </p>
+      </article>
+      <article class="focus-card" data-reveal>
+        <p class="label">Exploration</p>
+        <h3>Connect the unexpected.</h3>
+        <p>
+          Research, applied AI, and a curious streak — finding fresh perspectives where disciplines
+          meet.
+        </p>
+      </article>
+    </div>
+    <div class="prose" data-reveal>
+      <p>
+        I'm a <b>product manager</b> on Microsoft's SharePoint AI org, where I'm evolving the
+        <b>hybrid search</b> platform — the indexing, retrieval, and ranking APIs behind workplace
+        big data — and I own file search quality across Microsoft 365 and Copilot.
+      </p>
+      <p>
+        Before product, I was an engineer: full-stack development, high-performance computing,
+        information security, data analytics, and competitive programming. That path still shapes
+        how I build — close to the technical detail, and biased toward what ships and gets used.
+      </p>
+    </div>
+    <ul class="tags" data-reveal aria-label="Areas of focus">
+      <li class="tag">Applied AI</li>
+      <li class="tag">Hybrid search</li>
+      <li class="tag">Agentic orchestration</li>
+      <li class="tag">Developer experience</li>
+      <li class="tag">Enterprise systems</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Résumé -->
+<section id="resume" class="section" aria-labelledby="resume-title">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="label">Résumé</p>
+      <h2 id="resume-title">Experience, in full.</h2>
+    </div>
+
+    <div class="doc" data-reveal>
+      <div class="doc-frame">
+        <div class="placeholder" data-resume-placeholder>
+          <span class="spinner" data-resume-spinner aria-hidden="true" hidden></span>
+          <span data-resume-status role="status" aria-live="polite">résumé preview</span>
+          <a
+            class="link"
+            href="{{resumeView}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-describedby="new-tab-note"
+            >open résumé →</a
+          >
+          <button class="btn btn-ghost" type="button" data-resume-retry hidden>
+            Retry preview
+          </button>
+        </div>
+        <iframe
+          title="Akash Ravi résumé"
+          data-resume-frame
+          data-src="https://drive.google.com/file/d/{{site.resumeId}}/preview"
+          referrerpolicy="no-referrer"
+          hidden
+        ></iframe>
+      </div>
+    </div>
+    <div class="doc-actions" data-reveal>
+      <a
+        class="btn btn-ghost"
+        href="{{resumeView}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="new-tab-note"
+      >
+        Open résumé {{{icons.arrow-up-right}}}
+      </a>
+      <a
+        class="btn btn-ghost"
+        href="https://drive.google.com/uc?export=download&amp;id={{site.resumeId}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="new-tab-note"
+      >
+        Download PDF {{{icons.download}}}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Elsewhere -->
+<section id="elsewhere" class="section" aria-labelledby="elsewhere-title">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="label">Elsewhere</p>
+      <h2 id="elsewhere-title">Find me around the web.</h2>
+    </div>
+
+    {{#profiles}}
+    <div class="group" data-reveal>
+      <p class="group-label">{{label}}</p>
+      <div class="links-grid">
+        {{#links}}
+        <a
+          class="ext"
+          href="{{url}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-describedby="new-tab-note"
+        >
+          <span class="ico" aria-hidden="true">{{{iconMarkup}}}</span>
+          <span class="t"><b>{{name}}</b><span>{{detail}}</span></span>
+          {{{icons.arrow-up-right}}}
+        </a>
+        {{/links}}
+      </div>
+    </div>
+    {{/profiles}}
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="label">Contact</p>
+      <h2 id="contact-title">Let's talk.</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-aside" data-reveal>
+        <p>
+          Open to interesting problems, sharp teams, and the occasional good cold email. Reach me
+          here, or just say hi —
+          <a class="link" href="#contact" data-email data-email-text>my inbox</a> is always open.
+        </p>
+        {{>social-links}}
+        <button class="btn btn-ghost copy-email" type="button" data-copy-email hidden>
+          {{{icons.copy}}} Copy email
+        </button>
+        <p class="email-status" data-email-status role="status" aria-live="polite"></p>
+      </div>
+
+      <form
+        class="form"
+        action="https://formspree.io/f/xknkdzry"
+        method="post"
+        data-ajax-form
+        data-reveal
+      >
+        <div class="field-row">
+          <div class="field">
+            <label for="c-name">Name</label>
+            <input type="text" id="c-name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" name="email" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-subject">Subject</label>
+          <input type="text" id="c-subject" name="subject" required />
+        </div>
+        <div class="field">
+          <label for="c-message">Message</label>
+          <textarea id="c-message" name="message" rows="6" required></textarea>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="c-company">Company (leave blank)</label>
+          <input type="text" id="c-company" name="_gotcha" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="field">
+          <button class="btn btn-primary" type="submit">Send message {{{icons.send}}}</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>

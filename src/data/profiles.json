@@ -1,0 +1,74 @@
+[
+  {
+    "label": "Profiles",
+    "links": [
+      {
+        "name": "GitHub",
+        "detail": "/techtocore",
+        "url": "https://github.com/techtocore",
+        "icon": "github",
+        "social": true
+      },
+      {
+        "name": "LinkedIn",
+        "detail": "/in/akash-ravi",
+        "url": "https://www.linkedin.com/in/akash-ravi",
+        "icon": "linkedin",
+        "social": true
+      },
+      {
+        "name": "Google Scholar",
+        "detail": "research publications",
+        "url": "https://scholar.google.com/citations?user=PdFEnHEAAAAJ",
+        "icon": "scholar"
+      }
+    ]
+  },
+  {
+    "label": "Platforms I once lived in",
+    "links": [
+      {
+        "name": "Credly",
+        "detail": "certs & badges",
+        "url": "https://www.credly.com/users/akashravi/badges",
+        "icon": "credly"
+      },
+      {
+        "name": "Microsoft Learn",
+        "detail": "/akashravi",
+        "url": "https://learn.microsoft.com/en-us/users/akashravi/",
+        "icon": "microsoft-learn"
+      },
+      {
+        "name": "ICPC",
+        "detail": "Amrita University",
+        "url": "https://icpc.global/ICPCID/9Q3Q9LIEQSM1",
+        "icon": "icpc"
+      },
+      {
+        "name": "Codeforces",
+        "detail": "/akashravi",
+        "url": "https://codeforces.com/profile/akashravi",
+        "icon": "codeforces"
+      },
+      {
+        "name": "CodeChef",
+        "detail": "/techtocore",
+        "url": "https://www.codechef.com/users/techtocore",
+        "icon": "codechef"
+      },
+      {
+        "name": "HackerRank",
+        "detail": "@akashkravi",
+        "url": "https://www.hackerrank.com/akashkravi",
+        "icon": "hackerrank"
+      },
+      {
+        "name": "HackerEarth",
+        "detail": "@akashkravi",
+        "url": "https://www.hackerearth.com/@akashkravi",
+        "icon": "hackerearth"
+      }
+    ]
+  }
+]

@@ -10,14 +10,24 @@
   var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* ---------------------------------------------------------------------------
-     Theme toggle (light / dark) with no-flash handled inline in <head>.
+     Theme toggle (light / dark) with no-flash handled by theme-init.js.
      No stored preference => follows the OS via prefers-color-scheme.
      ------------------------------------------------------------------------ */
   var STORAGE_KEY = "theme";
   var themeToggles = document.querySelectorAll("[data-theme-toggle]");
+  var colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  var previewTheme = new URLSearchParams(window.location.search).get("scoutTheme");
+  var selectedTheme = null;
+  try {
+    selectedTheme = localStorage.getItem(STORAGE_KEY);
+  } catch (e) {
+    /* Preferences still work for this visit when storage is unavailable. */
+  }
+  if (previewTheme === "light" || previewTheme === "dark") selectedTheme = previewTheme;
+  if (selectedTheme !== "light" && selectedTheme !== "dark") selectedTheme = null;
 
   function systemTheme() {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return colorScheme.matches ? "dark" : "light";
   }
 
   function currentTheme() {
@@ -32,14 +42,26 @@
     });
   }
 
+  function updateTheme(theme) {
+    if (root.getAttribute("data-theme") !== theme) root.setAttribute("data-theme", theme);
+    syncToggles(theme);
+    var themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+      // Measure once enhancement DOM changes are complete, rather than forcing early styling.
+      window.requestAnimationFrame(function () {
+        themeColor.content = getComputedStyle(root).getPropertyValue("--cp-bg").trim();
+      });
+    }
+  }
+
   function applyTheme(theme) {
-    root.setAttribute("data-theme", theme);
+    selectedTheme = theme;
+    updateTheme(theme);
     try {
       localStorage.setItem(STORAGE_KEY, theme);
     } catch (e) {
       /* storage unavailable (private mode) — non-fatal */
     }
-    syncToggles(theme);
   }
 
   function toggleTheme() {
@@ -56,17 +78,17 @@
   themeToggles.forEach(function (btn) {
     btn.addEventListener("click", toggleTheme);
   });
-  syncToggles(currentTheme());
+  updateTheme(currentTheme());
 
   /* Keep auto-mode pages in sync if the OS theme changes mid-session. */
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-    var stored = null;
-    try {
-      stored = localStorage.getItem(STORAGE_KEY);
-    } catch (e) {}
-    if (stored !== "light" && stored !== "dark") {
-      root.removeAttribute("data-theme");
-    }
+  colorScheme.addEventListener("change", function () {
+    if (!selectedTheme) updateTheme(systemTheme());
+  });
+  window.addEventListener("storage", function (event) {
+    if (event.key !== STORAGE_KEY && event.key !== null) return;
+    if (previewTheme === "light" || previewTheme === "dark") return;
+    selectedTheme = event.newValue === "light" || event.newValue === "dark" ? event.newValue : null;
+    updateTheme(selectedTheme || systemTheme());
   });
 
   /* ---------------------------------------------------------------------------
@@ -103,15 +125,54 @@
   }
 
   /* ---------------------------------------------------------------------------
-     Sticky header shadow once scrolled past the top.
+     Sticky header and current-section navigation, coalesced per animation frame.
      ------------------------------------------------------------------------ */
   var header = document.querySelector(".nav");
+  var sectionLinks = Array.prototype.slice.call(
+    document.querySelectorAll('.nav-links a[href^="#"]'),
+  );
+  var sections = sectionLinks
+    .map(function (link) {
+      return document.getElementById(link.getAttribute("href").slice(1));
+    })
+    .filter(Boolean);
+  var activeSection = null;
+  var scrollScheduled = false;
+
+  function updateScroll() {
+    scrollScheduled = false;
+    if (header) header.classList.toggle("stuck", window.scrollY > 8);
+    if (!sections.length) return;
+
+    var active = null;
+    var marker = (header ? header.offsetHeight : 0) + window.innerHeight * 0.25;
+    sections.forEach(function (section) {
+      if (section.getBoundingClientRect().top <= marker) active = section.id;
+    });
+    if (window.scrollY + window.innerHeight >= root.scrollHeight - 2) {
+      active = sections[sections.length - 1].id;
+    }
+    if (active === activeSection) return;
+    activeSection = active;
+    sectionLinks.forEach(function (link) {
+      var isActive = link.getAttribute("href") === "#" + active;
+      link.classList.toggle("active", isActive);
+      if (isActive) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  function scheduleScroll() {
+    if (scrollScheduled) return;
+    scrollScheduled = true;
+    window.requestAnimationFrame(updateScroll);
+  }
+
   if (header) {
-    var onScroll = function () {
-      header.classList.toggle("stuck", window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    scheduleScroll();
+    window.addEventListener("scroll", scheduleScroll, { passive: true });
+    window.addEventListener("resize", scheduleScroll, { passive: true });
+    window.addEventListener("load", scheduleScroll);
   }
 
   /* ---------------------------------------------------------------------------
@@ -134,6 +195,7 @@
       revealEls.forEach(function (el) {
         revealObserver.observe(el);
       });
+      root.classList.add("reveal-ready");
     } else {
       revealEls.forEach(function (el) {
         el.classList.add("in");
@@ -150,21 +212,65 @@
     var resumePlaceholder = document.querySelector("[data-resume-placeholder]");
     var resumeSpinner = document.querySelector("[data-resume-spinner]");
     var resumeStatus = document.querySelector("[data-resume-status]");
+    var resumeRetry = document.querySelector("[data-resume-retry]");
+    var resumeLoading = false;
+    var resumeTimer;
+    var resumeAttempt = 0;
+
+    var resumeUnavailable = function (attempt) {
+      if (attempt !== resumeAttempt) return;
+      resumeLoading = false;
+      window.clearTimeout(resumeTimer);
+      resumeFrame.parentElement.setAttribute("aria-busy", "false");
+      resumeFrame.hidden = true;
+      if (resumePlaceholder) resumePlaceholder.hidden = false;
+      if (resumeSpinner) resumeSpinner.hidden = true;
+      if (resumeStatus) {
+        resumeStatus.textContent = "The preview is taking too long. Open the résumé or try again.";
+      }
+      if (resumeRetry) resumeRetry.hidden = false;
+    };
+
     var loadResume = function () {
-      if (resumeFrame.getAttribute("src")) return;
+      if (resumeLoading) return;
+      var attempt = ++resumeAttempt;
+      var previousFrame = resumeFrame;
+      // A fresh browsing context also restarts a stalled, same-URL request in Chromium.
+      resumeFrame = previousFrame.cloneNode(false);
+      resumeFrame.removeAttribute("src");
+      resumeLoading = true;
+      resumeFrame.classList.remove("loaded");
+      previousFrame.parentElement.setAttribute("aria-busy", "true");
+      if (resumePlaceholder) resumePlaceholder.hidden = false;
+      if (resumeRetry) resumeRetry.hidden = true;
       if (resumeSpinner) resumeSpinner.hidden = false;
       if (resumeStatus) resumeStatus.textContent = "loading résumé…";
-      resumeFrame.addEventListener(
-        "load",
-        function () {
-          resumeFrame.classList.add("loaded");
-          if (resumePlaceholder) resumePlaceholder.hidden = true;
-        },
-        { once: true },
-      );
+      resumeFrame.addEventListener("load", function () {
+        if (!resumeLoading || attempt !== resumeAttempt) return;
+        resumeLoading = false;
+        window.clearTimeout(resumeTimer);
+        resumeFrame.parentElement.setAttribute("aria-busy", "false");
+        resumeFrame.classList.add("loaded");
+        if (resumeSpinner) resumeSpinner.hidden = true;
+        if (resumePlaceholder) resumePlaceholder.hidden = true;
+      });
+      resumeFrame.addEventListener("error", function () {
+        resumeUnavailable(attempt);
+      });
+      resumeTimer = window.setTimeout(function () {
+        resumeUnavailable(attempt);
+      }, 15000);
       resumeFrame.hidden = false;
       resumeFrame.setAttribute("src", resumeFrame.getAttribute("data-src"));
+      previousFrame.replaceWith(resumeFrame);
     };
+
+    if (resumeRetry) {
+      resumeRetry.addEventListener("click", function () {
+        loadResume();
+        resumeFrame.focus();
+      });
+    }
 
     if ("IntersectionObserver" in window) {
       var resumeObserver = new IntersectionObserver(
@@ -187,46 +293,6 @@
   }
 
   /* ---------------------------------------------------------------------------
-     Active section highlighting in the nav (index page).
-     ------------------------------------------------------------------------ */
-  var sectionLinks = Array.prototype.slice.call(
-    document.querySelectorAll('.nav-links a[href^="#"]'),
-  );
-  if (sectionLinks.length && "IntersectionObserver" in window) {
-    var linkFor = {};
-    var sections = [];
-    sectionLinks.forEach(function (link) {
-      var id = link.getAttribute("href").slice(1);
-      var section = document.getElementById(id);
-      if (section) {
-        linkFor[id] = link;
-        sections.push(section);
-      }
-    });
-    var navObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            sectionLinks.forEach(function (l) {
-              l.classList.remove("active");
-              l.removeAttribute("aria-current");
-            });
-            var active = linkFor[entry.target.id];
-            if (active) {
-              active.classList.add("active");
-              active.setAttribute("aria-current", "true");
-            }
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-    sections.forEach(function (section) {
-      navObserver.observe(section);
-    });
-  }
-
-  /* ---------------------------------------------------------------------------
      Contact form: progressive enhancement over a native Formspree POST.
      Without JS the form still submits normally; with JS we POST via fetch
      and show an inline status without a full page navigation.
@@ -236,6 +302,7 @@
     var status = form.querySelector(".form-status");
     var submitBtn = form.querySelector('[type="submit"]');
     var defaultHTML = submitBtn ? submitBtn.innerHTML : "";
+    var sending = false;
 
     var setStatus = function (message, state) {
       if (!status) return;
@@ -245,39 +312,77 @@
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
+      if (sending || !form.reportValidity()) return;
+      sending = true;
+      form.setAttribute("aria-busy", "true");
       setStatus("Sending…", "pending");
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending…";
       }
 
+      var controller = new AbortController();
+      var payload = new FormData(form);
+      var submittedDraft = new URLSearchParams(payload).toString();
+      var requestTimer = window.setTimeout(function () {
+        controller.abort();
+      }, 15000);
+
       fetch(form.action, {
         method: "POST",
-        body: new FormData(form),
+        body: payload,
         headers: { Accept: "application/json" },
+        signal: controller.signal,
       })
         .then(function (response) {
           if (response.ok) {
-            form.reset();
-            setStatus("Thanks — your message is on its way. I'll get back to you soon.", "success");
+            if (new URLSearchParams(new FormData(form)).toString() === submittedDraft) {
+              form.reset();
+              setStatus(
+                "Thanks — your message is on its way. I'll get back to you soon.",
+                "success",
+              );
+            } else {
+              setStatus("Message sent. Your newer edits have been kept.", "success");
+            }
           } else {
-            return response.json().then(function (data) {
-              var msg =
-                data && data.errors
-                  ? data.errors
-                      .map(function (e) {
-                        return e.message;
-                      })
-                      .join(", ")
-                  : "Something went wrong. Please try again or email me directly.";
-              setStatus(msg, "error");
-            });
+            return response
+              .json()
+              .catch(function () {
+                return null;
+              })
+              .then(function (data) {
+                var messages =
+                  data && Array.isArray(data.errors)
+                    ? data.errors
+                        .filter(function (error) {
+                          return error && typeof error.message === "string";
+                        })
+                        .map(function (error) {
+                          return error.message;
+                        })
+                        .join(" ")
+                    : "";
+                var fallback =
+                  response.status === 429
+                    ? "Too many attempts. Please wait a moment or email me directly."
+                    : "The message wasn't sent. Please try again or email me directly.";
+                setStatus(messages || fallback, "error");
+              });
           }
         })
-        .catch(function () {
-          setStatus("Network error. Please try again or email me directly.", "error");
+        .catch(function (error) {
+          setStatus(
+            error.name === "AbortError"
+              ? "The request timed out; delivery couldn't be confirmed. Please email me directly."
+              : "Couldn't confirm delivery. Check your connection or email me directly.",
+            "error",
+          );
         })
         .finally(function () {
+          window.clearTimeout(requestTimer);
+          sending = false;
+          form.setAttribute("aria-busy", "false");
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerHTML = defaultHTML;
@@ -290,7 +395,8 @@
      Current year in the footer.
      ------------------------------------------------------------------------ */
   document.querySelectorAll("[data-year]").forEach(function (el) {
-    el.textContent = String(new Date().getFullYear());
+    var year = String(new Date().getFullYear());
+    if (el.textContent !== year) el.textContent = year;
   });
 
   /* ---------------------------------------------------------------------------
@@ -306,4 +412,28 @@
       link.textContent = emailAddress;
     }
   });
+
+  var copyEmail = document.querySelector("[data-copy-email]");
+  var emailStatus = document.querySelector("[data-email-status]");
+  if (copyEmail && navigator.clipboard && window.isSecureContext) {
+    copyEmail.hidden = false;
+    copyEmail.addEventListener("click", function () {
+      copyEmail.disabled = true;
+      navigator.clipboard
+        .writeText(emailAddress)
+        .then(function () {
+          if (emailStatus) emailStatus.textContent = "Email address copied.";
+        })
+        .catch(function () {
+          if (emailStatus) {
+            emailStatus.textContent = "Copy isn't available. Select the email address above.";
+          }
+        })
+        .finally(function () {
+          copyEmail.disabled = false;
+        });
+    });
+  }
+
+  root.classList.add("js");
 })();

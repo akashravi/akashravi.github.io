@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://akashravi.github.io/sitemap.xml

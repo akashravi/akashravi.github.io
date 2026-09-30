@@ -1,4 +1,4 @@
-{% if page.home -%}
+{{#home}}
 <!--
     _                ___       _.--.
     \`.|\..----...-'`   `-._.-'_.-'`
@@ -15,21 +15,22 @@ GFua3MgZm9yIGNoZWNraW5nIHRoaXMgb3V0IFhEClNlbmQgbWUgYSBwa
 WN0dXJlIG9mIHRoaXMgYW5kIEknbGwgZ2V0IHlvdSBhIGNvZmZlZS4gRGVh
 bD8KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCg==
 -->
-{% endif -%}
+{{/home}}
 <!doctype html>
 <html lang="en">
   <head>
-    {% include head.html %}
+    {{>head}}
   </head>
 
   <body>
-    <a class="skip" href="{% if page.home %}#top{% else %}#main{% endif %}">Skip to content</a>
+    <a class="skip" href="#{{mainId}}">Skip to content</a>
+    <span id="new-tab-note" hidden>Opens in a new tab.</span>
 
-    {% include header.html %}
+    {{>header}}
 
-    <main id="{% if page.home %}top{% else %}main{% endif %}" tabindex="-1">{{ content }}</main>
+    <main id="{{mainId}}" tabindex="-1">{{{content}}}</main>
 
-    {% include footer.html %}
+    {{>footer}}
 
     <script src="/assets/js/app.js" defer></script>
   </body>

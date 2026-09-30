@@ -1,7 +1,7 @@
 # Weekly broken-link check across the built site and the README.
 #
-# It checks _site rather than the sources because page URLs now come from
-# _data/profiles.yml and _config.yml via Liquid — only the built output has the
+# It checks dist rather than the sources because page URLs come from
+# src/data via Mustache — only the built output has the
 # real hrefs, and it's what visitors actually get.
 name: Links
 
@@ -18,14 +18,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
         with:
-          ruby-version: "3.4"
-          bundler-cache: true
+          persist-credentials: false
 
-      - name: Build (Jekyll)
-        run: bundle exec jekyll build
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - name: Build static site
+        run: npm run build
 
       - name: Check links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
@@ -47,7 +51,7 @@ jobs:
             --retry-wait-time 10
             --timeout 30
             --accept 200..=299,403,429
-            --root-dir "${{ github.workspace }}/_site"
-            "_site/**/*.html" README.md
+            --root-dir "${{ github.workspace }}/dist"
+            "dist/**/*.html" README.md
           fail: true
           jobSummary: true

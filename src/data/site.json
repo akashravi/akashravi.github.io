@@ -1,0 +1,42 @@
+{
+  "title": "Akash Ravi",
+  "url": "https://akashravi.github.io",
+  "resumeId": "1_mfqrYqnBg2KYWOGcoykjsqUkipdB4Nt",
+  "socialDescription": "Product leader on Microsoft's SharePoint AI — hybrid search, retrieval, and ranking across Microsoft 365 and Copilot.",
+  "person": {
+    "jobTitle": "Product Manager",
+    "worksFor": { "@type": "Organization", "name": "Microsoft" },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Seattle",
+      "addressRegion": "WA",
+      "addressCountry": "US"
+    },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Purdue University" },
+      { "@type": "CollegeOrUniversity", "name": "Amrita Vishwa Vidyapeetham" }
+    ],
+    "knowsAbout": [
+      "Artificial Intelligence",
+      "Product Management",
+      "Information Retrieval",
+      "Search Relevance",
+      "AI Agents",
+      "Enterprise Software"
+    ]
+  },
+  "pages": [
+    {
+      "file": "index.html",
+      "home": true,
+      "title": "Akash Ravi — Product Manager, SharePoint AI at Microsoft",
+      "description": "Akash Ravi is a product manager on Microsoft's SharePoint AI, evolving hybrid search — indexing, retrieval, and ranking across Microsoft 365 and Copilot. 6+ years in AI and enterprise software, with deep engineering roots."
+    },
+    {
+      "file": "404.html",
+      "noindex": true,
+      "title": "Page not found — Akash Ravi",
+      "description": "That page doesn't exist."
+    }
+  ]
+}

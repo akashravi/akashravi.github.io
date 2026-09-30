@@ -1,11 +1,7 @@
 # Only paths Prettier would otherwise pick up: build output, dependencies, and
 # generated/vendored files. Binary assets are skipped by the format globs already.
 node_modules/
-_site/
-vendor/
+dist/
 package-lock.json
-Gemfile.lock
-
-# Prettier has no Liquid parser, and reflows this file's tags into something
-# unreadable. It's an SVG data file — keep it hand-formatted.
-_includes/icon.html
+test-results/
+playwright-report/
