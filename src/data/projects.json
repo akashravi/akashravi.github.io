@@ -1,0 +1,47 @@
+[
+  {
+    "id": "grammar-check-slm",
+    "name": "Grammar Check SLM",
+    "category": "On-device AI",
+    "context": "Browser extension",
+    "summary": "Grammar and spelling corrections powered by small language models running on your device. Your text stays local.",
+    "technical": "Qwen models run locally through Transformers.js with WebGPU or WASM, with Gemini Nano as an optional engine. Sentence caching avoids repeated checks, while word-level diffs place suggestions in the right text range.",
+    "technologies": ["TypeScript", "Transformers.js", "Manifest V3"],
+    "languages": ["TypeScript"],
+    "repository": "https://github.com/techtocore/Grammar-check-SLM",
+    "action": {
+      "label": "Chrome Web Store",
+      "url": "https://chromewebstore.google.com/detail/lohelopgomgjmabihgmcdpnmckjpdbhd"
+    }
+  },
+  {
+    "id": "dev-toolbox",
+    "name": "Dev Toolbox",
+    "category": "Developer tools",
+    "context": "Web application",
+    "summary": "Everyday developer utilities in one browser-based workspace: format JSON, inspect JWTs, compare text, and work with PDFs and images.",
+    "technical": "Angular progressive web app with lazy-loaded tools and local file processing. A shared WebLLM worker handles on-device AI without blocking the interface.",
+    "technologies": ["Angular", "TypeScript", "WebLLM"],
+    "languages": ["TypeScript"],
+    "repository": "https://github.com/techtocore/Dev-Toolbox",
+    "action": {
+      "label": "Open toolbox",
+      "url": "https://techtocore.github.io/Dev-Toolbox/"
+    }
+  },
+  {
+    "id": "swan-package-manager",
+    "name": "SWAN Package Manager",
+    "category": "Scientific computing",
+    "context": "CERN-HSF · GSoC 2019",
+    "summary": "A Jupyter Notebook extension for managing Python dependencies per SWAN project, designed to make shared scientific notebooks easier to reproduce.",
+    "technical": "Python server APIs and a JavaScript notebook interface, with a separate conda environment for each SWAN project. The prototype keeps project dependencies separate.",
+    "technologies": ["Python", "Jupyter Notebook", "conda"],
+    "languages": ["Python", "JavaScript"],
+    "repository": "https://github.com/techtocore/Jupyter-Package-Manager",
+    "action": {
+      "label": "Read project report",
+      "url": "https://akashravi.github.io/SWAN-Package-Manager/"
+    }
+  }
+]

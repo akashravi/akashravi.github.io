@@ -16,12 +16,15 @@
 <title>{{title}}</title>
 <meta name="description" content="{{description}}" />
 <link rel="canonical" href="{{canonical}}" />
-{{#home}} {{>seo}} {{/home}}
+{{^noindex}} {{>seo}} {{/noindex}}
 
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
 
 <link rel="stylesheet" href="/assets/css/styles.css" />
+{{#projectsPage}}
+<link rel="stylesheet" href="/assets/css/projects.css" />
+{{/projectsPage}}
 
 <script src="/assets/js/analytics.js" defer></script>

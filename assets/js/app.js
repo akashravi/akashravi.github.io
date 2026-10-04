@@ -119,7 +119,7 @@
         navToggle.focus();
       }
     });
-    window.matchMedia("(min-width: 34em)").addEventListener("change", function (event) {
+    window.matchMedia("(min-width: 44em)").addEventListener("change", function (event) {
       if (event.matches) setNavOpen(false);
     });
   }

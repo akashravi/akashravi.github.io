@@ -15,11 +15,17 @@
       </button>
       <nav id="primary-navigation" class="nav-links" aria-label="Primary">
         <a href="#about" tabindex="0">About</a>
+        <a href="/projects/" tabindex="0">Projects</a>
         <a href="#resume" tabindex="0">Résumé</a>
         <a href="#elsewhere" tabindex="0">Elsewhere</a>
         <a href="#contact" tabindex="0">Contact</a>
       </nav>
-      {{/home}}
+      {{/home}} {{#projectsPage}}
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/" tabindex="0">Home</a>
+        <a href="/projects/" class="active" aria-current="page" tabindex="0">Projects</a>
+      </nav>
+      {{/projectsPage}}
       <button
         class="icon-btn theme-toggle"
         type="button"

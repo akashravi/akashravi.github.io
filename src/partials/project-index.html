@@ -1,0 +1,9 @@
+<nav class="project-index" aria-label="Projects on this page">
+  {{#projects}}
+  <a href="#{{id}}" tabindex="0">
+    <span class="project-number" aria-hidden="true">{{number}}</span>
+    <span class="project-index-name">{{name}}</span>
+    {{{icons.arrow-up}}}
+  </a>
+  {{/projects}}
+</nav>

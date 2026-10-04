@@ -37,6 +37,12 @@
       "noindex": true,
       "title": "Page not found — Akash Ravi",
       "description": "That page doesn't exist."
+    },
+    {
+      "file": "projects/index.html",
+      "projectsPage": true,
+      "title": "Selected projects — Akash Ravi",
+      "description": "Public projects designed and built by Akash Ravi, spanning on-device AI, developer tools, and scientific computing. Explore the implementations and source code."
     }
   ]
 }

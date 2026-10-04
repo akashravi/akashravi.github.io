@@ -2,6 +2,7 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Mustache from "mustache";
+import { createProjectsSchema, prepareProjects } from "./projects.mjs";
 
 export const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const OUTPUT = path.join(ROOT, "dist");
@@ -10,9 +11,10 @@ export async function build(root = ROOT) {
   const output = path.join(root, "dist");
   const read = (...parts) => readFile(path.join(root, ...parts), "utf8");
   const readJson = async (...parts) => JSON.parse(await read(...parts));
-  const [site, groups, layout, sprite, partialFiles] = await Promise.all([
+  const [site, groups, projectData, layout, sprite, partialFiles] = await Promise.all([
     readJson("src", "data", "site.json"),
     readJson("src", "data", "profiles.json"),
+    readJson("src", "data", "projects.json"),
     read("src", "layout.html"),
     read("assets", "icons", "sprite.svg"),
     readdir(path.join(root, "src", "partials")),
@@ -70,6 +72,7 @@ export async function build(root = ROOT) {
     }),
   }));
   const allLinks = profiles.flatMap((group) => group.links);
+  const projects = prepareProjects(projectData);
   const partials = Object.fromEntries(
     await Promise.all(
       partialFiles
@@ -77,19 +80,18 @@ export async function build(root = ROOT) {
         .map(async (file) => [path.basename(file, ".html"), await read("src", "partials", file)]),
     ),
   );
-  const personJson = JSON.stringify(
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      ...site.person,
-      name: site.title,
-      url: site.url,
-      image: `${site.url}/images/akash.jpg`,
-      sameAs: allLinks.map((link) => link.url),
-    },
-    null,
-    2,
-  ).replaceAll("<", "\\u003c");
+  const jsonLd = (value) => JSON.stringify(value, null, 2).replaceAll("<", "\\u003c");
+  const person = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    ...site.person,
+    "@id": `${site.url}/#person`,
+    name: site.title,
+    url: site.url,
+    image: `${site.url}/images/akash.jpg`,
+    sameAs: allLinks.map((link) => link.url),
+  };
+  const personJson = jsonLd(person);
   const files = new Set();
   const validateTemplate = (template, file) => {
     for (const [, partial] of template.matchAll(/\{\{>\s*([\w-]+)\s*\}\}/g)) {
@@ -110,6 +112,7 @@ export async function build(root = ROOT) {
         files.has(page.file) ||
         ("home" in page && typeof page.home !== "boolean") ||
         ("noindex" in page && typeof page.noindex !== "boolean") ||
+        ("projectsPage" in page && typeof page.projectsPage !== "boolean") ||
         typeof page.title !== "string" ||
         !page.title.trim() ||
         typeof page.description !== "string" ||
@@ -119,20 +122,29 @@ export async function build(root = ROOT) {
       }
       files.add(page.file);
       const canonical = `${site.url}/${page.file.replace(/(^|\/)index\.html$/, "$1")}`;
+      const projectsJson = page.projectsPage
+        ? jsonLd(createProjectsSchema(projects, { ...page, canonical }, person))
+        : "";
       const context = {
         ...page,
         home: page.home === true,
         noindex: page.noindex === true,
         site,
         profiles,
+        projects,
+        projectCount: projects.length,
+        compactProjectIndex: projects.length > 6,
         icons,
         personJson,
+        projectsJson,
+        socialDescription: page.home ? site.socialDescription : page.description,
         canonical,
         socialLinks: allLinks.filter((link) => link.social),
         resumeView: `https://drive.google.com/file/d/${site.resumeId}/view`,
         year: new Date().getFullYear(),
         mainId: page.home ? "top" : "main",
         homeLink: page.home ? "#top" : "/",
+        contactLink: page.home ? "#contact" : "/#contact",
       };
       const template = await read("src", "pages", ...page.file.split("/"));
       validateTemplate(template, page.file);

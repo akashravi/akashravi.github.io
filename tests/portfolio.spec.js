@@ -320,55 +320,60 @@ test("section navigation stays accurate in tall sections, at the bottom, and on 
   await expect(nav.locator("[aria-current]")).toHaveCount(0);
 });
 
-for (const width of [320, 1440]) {
-  test(`footer groups its actions cleanly at ${width}px and back-to-top works by keyboard`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width, height: 812 });
-    await home(page, "/?scoutTheme=dark");
-    const footer = page.getByRole("contentinfo");
-    const actions = footer.locator(".foot-actions");
-    const backToTop = actions.getByRole("link", { name: "Back to top", exact: true });
-    await footer.scrollIntoViewIfNeeded();
-    await expect(actions.locator(".social-links a")).toHaveCount(3);
-    const boxes = await footer.evaluate((element) => {
-      const box = (selector) => {
-        const rect = element.querySelector(selector).getBoundingClientRect();
-        return {
-          left: rect.left,
-          right: rect.right,
-          top: rect.top,
-          bottom: rect.bottom,
-          height: rect.height,
+for (const [route, mainId] of [
+  ["/", "top"],
+  ["/projects/", "main"],
+]) {
+  for (const width of [320, 1440]) {
+    test(`${route} footer groups its actions cleanly at ${width}px and back-to-top works by keyboard`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 812 });
+      await home(page, `${route}?scoutTheme=dark`);
+      const footer = page.getByRole("contentinfo");
+      const actions = footer.locator(".foot-actions");
+      const backToTop = actions.getByRole("link", { name: "Back to top", exact: true });
+      await footer.scrollIntoViewIfNeeded();
+      await expect(actions.locator(".social-links a")).toHaveCount(3);
+      const boxes = await footer.evaluate((element) => {
+        const box = (selector) => {
+          const rect = element.querySelector(selector).getBoundingClientRect();
+          return {
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
+            height: rect.height,
+          };
         };
-      };
-      return {
-        copyright: box("p"),
-        actions: box(".foot-actions"),
-        socials: box(".social-links"),
-        utility: box(".back-top"),
-      };
+        return {
+          copyright: box("p"),
+          actions: box(".foot-actions"),
+          socials: box(".social-links"),
+          utility: box(".back-top"),
+        };
+      });
+      expect(boxes.utility.height).toBeGreaterThanOrEqual(44);
+      expect(boxes.utility.left).toBeGreaterThan(boxes.socials.right);
+      expect(
+        Math.abs(
+          boxes.utility.top +
+            boxes.utility.height / 2 -
+            (boxes.socials.top + boxes.socials.height / 2),
+        ),
+      ).toBeLessThanOrEqual(1);
+      if (width === 320) {
+        expect(boxes.actions.top).toBeGreaterThan(boxes.copyright.bottom);
+      } else {
+        expect(boxes.actions.left).toBeGreaterThan(boxes.copyright.right);
+      }
+      await backToTop.focus();
+      await expect(backToTop).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(page).toHaveURL(new RegExp(`#${mainId}$`));
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
     });
-    expect(boxes.utility.height).toBeGreaterThanOrEqual(44);
-    expect(boxes.utility.left).toBeGreaterThan(boxes.socials.right);
-    expect(
-      Math.abs(
-        boxes.utility.top +
-          boxes.utility.height / 2 -
-          (boxes.socials.top + boxes.socials.height / 2),
-      ),
-    ).toBeLessThanOrEqual(1);
-    if (width === 320) {
-      expect(boxes.actions.top).toBeGreaterThan(boxes.copyright.bottom);
-    } else {
-      expect(boxes.actions.left).toBeGreaterThan(boxes.copyright.right);
-    }
-    await backToTop.focus();
-    await expect(backToTop).toBeFocused();
-    await page.keyboard.press("Enter");
-    await expect(page).toHaveURL(/#top$/);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-  });
+  }
 }
 
 test("résumé viewer loads near its section, uses the same live document for every action", async ({
@@ -618,7 +623,7 @@ test("missing clipboard and IntersectionObserver APIs degrade gracefully", async
   expect(faded).toEqual([]);
 });
 
-for (const width of [320, 375, 544, 768, 1024, 1440]) {
+for (const width of [320, 375, 544, 640, 704, 768, 1024, 1440]) {
   test(`layout has no horizontal overflow at ${width}px and keeps touch targets usable`, async ({
     page,
   }) => {

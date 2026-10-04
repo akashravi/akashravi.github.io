@@ -1,0 +1,87 @@
+<div class="projects-page">
+  <header class="project-intro">
+    <div class="wrap">
+      <p class="label">Selected work</p>
+      <h1>Selected projects.</h1>
+      <p class="lead">
+        A few of my projects — on-device AI, developer tools, and scientific computing.
+      </p>
+      {{#compactProjectIndex}}
+      <details class="project-directory">
+        <summary>Browse {{projectCount}} projects</summary>
+        {{>project-index}}
+      </details>
+      {{/compactProjectIndex}} {{^compactProjectIndex}} {{>project-index}} {{/compactProjectIndex}}
+    </div>
+  </header>
+
+  <section class="project-list" aria-label="Selected projects">
+    <div class="wrap">
+      {{#projects}}
+      <article id="{{id}}" class="project-card" aria-labelledby="{{id}}-title" tabindex="-1">
+        <div class="project-card-header">
+          <p class="project-category">
+            <span class="project-number" aria-hidden="true">{{number}}</span>
+            {{category}}
+          </p>
+          <p class="project-context">{{context}}</p>
+        </div>
+        <div class="project-grid">
+          <div class="project-overview">
+            <h2 id="{{id}}-title">{{name}}</h2>
+            <p class="project-summary">{{summary}}</p>
+            <ul class="tags project-tags" aria-label="{{name}} technologies">
+              {{#technologies}}
+              <li class="tag">{{.}}</li>
+              {{/technologies}}
+            </ul>
+          </div>
+          <div class="project-details">
+            <p>{{technical}}</p>
+          </div>
+        </div>
+        <div class="project-links">
+          {{#action}}
+          <a
+            class="btn btn-ghost"
+            href="{{url}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-describedby="new-tab-note"
+          >
+            {{label}}<span class="sr-only"> for {{name}}</span> {{{icons.arrow-up-right}}}
+          </a>
+          {{/action}}
+          <a
+            class="project-source link"
+            href="{{repository}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-describedby="new-tab-note"
+          >
+            {{{icons.github}}} Source code<span class="sr-only"> for {{name}}</span>
+          </a>
+        </div>
+      </article>
+      {{/projects}}
+    </div>
+  </section>
+
+  <aside class="project-outro">
+    <div class="wrap">
+      <p>
+        A selection of public work, not a full work history.
+        <a class="link" href="/#resume">See my résumé</a> for the bigger picture.
+      </p>
+      <a
+        class="project-source link"
+        href="https://github.com/techtocore"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="new-tab-note"
+      >
+        More on GitHub {{{icons.arrow-up-right}}}
+      </a>
+    </div>
+  </aside>
+</div>

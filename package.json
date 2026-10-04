@@ -1,6 +1,6 @@
 {
   "name": "akashravi-portfolio",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Personal portfolio of Akash Ravi — Product Manager, SharePoint AI at Microsoft.",
   "private": true,
   "homepage": "https://akashravi.github.io",
@@ -16,7 +16,7 @@
     "preview": "node scripts/serve.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check playwright.config.js",
+    "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js && node --check scripts/build.mjs && node --check scripts/projects.mjs && node --check scripts/serve.mjs && node --check playwright.config.js",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint:html": "htmlhint \"dist/**/*.html\"",
     "lint": "npm run build && npm run lint:js && npm run lint:css && npm run lint:html && npm run format:check",
@@ -32,7 +32,7 @@
     "htmlhint": "1.9.2",
     "mustache": "4.2.0",
     "prettier": "3.9.9",
-    "stylelint": "17.15.0",
+    "stylelint": "17.16.0",
     "stylelint-config-standard": "40.0.0"
   }
 }
