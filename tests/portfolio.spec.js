@@ -471,6 +471,7 @@ test("form loads reCAPTCHA v3 and sends its token to Formspree", async ({ page }
   await expect(page.locator(".form-status")).toHaveAttribute("data-state", "success");
   expect(sent.postData()).toContain("g-recaptcha-response");
   expect(sent.postData()).toContain(`token-${siteKey}-submit`);
+  expect(sent.postData()).not.toContain("_gotcha");
 });
 
 test("form waits for a slow reCAPTCHA script before sending", async ({ page }) => {
@@ -693,7 +694,6 @@ for (const width of [320, 375, 544, 640, 704, 768, 1024, 1440]) {
           return (
             rect.width &&
             (rect.right > innerWidth + 1 || rect.left < -1) &&
-            !element.closest(".hp") &&
             !element.classList.contains("skip")
           );
         })

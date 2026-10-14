@@ -927,13 +927,6 @@ h3 {
   outline: 2px solid var(--cp-accent);
   outline-offset: 1px;
 }
-.hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
 .form-status {
   font-family: var(--font-mono);
   font-size: var(--step--1);
