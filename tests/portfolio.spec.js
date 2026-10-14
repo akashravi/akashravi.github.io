@@ -10,7 +10,7 @@ test.beforeEach(async ({ context }) => {
     if (host === "drive.google.com") {
       return route.fulfill({ contentType: "text/html", body: previewHtml });
     }
-    if (host === "www.googletagmanager.com") {
+    if (host === "www.googletagmanager.com" || host === "www.google.com") {
       return route.fulfill({ contentType: "text/javascript", body: "" });
     }
     return route.abort();
@@ -444,6 +444,63 @@ test("form success posts the draft once, clears it, and restores the send contro
   expect(sent.headers().accept).toBe("application/json");
   expect(sent.postData()).toContain("visitor@example.com");
   expect(sent.postData()).toContain("An interesting problem");
+});
+
+test("form loads reCAPTCHA v3 and sends its token to Formspree", async ({ page }) => {
+  let scriptUrl;
+  let sent;
+  await page.route("https://www.google.com/recaptcha/**", (route) => {
+    scriptUrl = route.request().url();
+    return route.fulfill({
+      contentType: "text/javascript",
+      body: `window.grecaptcha = {
+        ready: (cb) => cb(),
+        execute: (key, options) => Promise.resolve("token-" + key + "-" + options.action),
+      };`,
+    });
+  });
+  await page.route("https://formspree.io/**", (route) => {
+    sent = route.request();
+    return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+  });
+  await draft(page);
+  await expect.poll(() => page.evaluate(() => typeof window.grecaptcha)).toBe("object");
+  const siteKey = await page.locator("form").getAttribute("data-recaptcha-site-key");
+  expect(scriptUrl).toBe(`https://www.google.com/recaptcha/api.js?render=${siteKey}`);
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.locator(".form-status")).toHaveAttribute("data-state", "success");
+  expect(sent.postData()).toContain("g-recaptcha-response");
+  expect(sent.postData()).toContain(`token-${siteKey}-submit`);
+});
+
+test("form waits for a slow reCAPTCHA script before sending", async ({ page }) => {
+  let releaseScript;
+  const scriptHeld = new Promise((resolve) => {
+    releaseScript = resolve;
+  });
+  let sent;
+  await page.route("https://www.google.com/recaptcha/**", async (route) => {
+    await scriptHeld;
+    return route.fulfill({
+      contentType: "text/javascript",
+      body: `window.grecaptcha = {
+        ready: (cb) => cb(),
+        execute: () => Promise.resolve("late-token"),
+      };`,
+    });
+  });
+  await page.route("https://formspree.io/**", (route) => {
+    sent = route.request();
+    return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+  });
+  await draft(page);
+  expect(await page.evaluate(() => typeof window.grecaptcha)).toBe("undefined");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.locator(".form-status")).toHaveAttribute("data-state", "pending");
+  expect(sent).toBeUndefined();
+  releaseScript();
+  await expect(page.locator(".form-status")).toHaveAttribute("data-state", "success");
+  expect(sent.postData()).toContain("late-token");
 });
 
 for (const [name, response, message] of [

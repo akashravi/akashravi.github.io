@@ -303,6 +303,66 @@
     var submitBtn = form.querySelector('[type="submit"]');
     var defaultHTML = submitBtn ? submitBtn.innerHTML : "";
     var sending = false;
+    var recaptchaKey = form.getAttribute("data-recaptcha-site-key");
+    var recaptchaState = "loading";
+
+    // reCAPTCHA v3 scores page behavior, so it loads up front rather than on submit.
+    if (recaptchaKey) {
+      var recaptchaScript = document.createElement("script");
+      recaptchaScript.src =
+        "https://www.google.com/recaptcha/api.js?render=" + encodeURIComponent(recaptchaKey);
+      recaptchaScript.async = true;
+      recaptchaScript.addEventListener("load", function () {
+        recaptchaState = "loaded";
+      });
+      recaptchaScript.addEventListener("error", function () {
+        recaptchaState = "failed";
+      });
+      document.head.appendChild(recaptchaScript);
+    }
+
+    // Waits up to five seconds for the async script, then resolves with an empty
+    // token if reCAPTCHA is blocked or slow; Formspree then rejects the submission
+    // and its error is shown to the visitor.
+    var getRecaptchaToken = function () {
+      if (!recaptchaKey) return Promise.resolve("");
+      return new Promise(function (resolve) {
+        var done = false;
+        var poll;
+        var timer;
+        var finish = function (token) {
+          if (done) return;
+          done = true;
+          window.clearTimeout(timer);
+          window.clearTimeout(poll);
+          resolve(typeof token === "string" ? token : "");
+        };
+        var run = function () {
+          var api = window.grecaptcha;
+          if (!api || typeof api.ready !== "function") {
+            if (recaptchaState === "loading") {
+              poll = window.setTimeout(run, 100);
+            } else {
+              finish("");
+            }
+            return;
+          }
+          try {
+            api.ready(function () {
+              api.execute(recaptchaKey, { action: "submit" }).then(finish, function () {
+                finish("");
+              });
+            });
+          } catch (error) {
+            finish("");
+          }
+        };
+        timer = window.setTimeout(function () {
+          finish("");
+        }, 5000);
+        run();
+      });
+    };
 
     var setStatus = function (message, state) {
       if (!status) return;
@@ -328,12 +388,16 @@
         controller.abort();
       }, 15000);
 
-      fetch(form.action, {
-        method: "POST",
-        body: payload,
-        headers: { Accept: "application/json" },
-        signal: controller.signal,
-      })
+      getRecaptchaToken()
+        .then(function (token) {
+          if (token) payload.set("g-recaptcha-response", token);
+          return fetch(form.action, {
+            method: "POST",
+            body: payload,
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          });
+        })
         .then(function (response) {
           if (response.ok) {
             if (new URLSearchParams(new FormData(form)).toString() === submittedDraft) {
