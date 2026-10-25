@@ -1,0 +1,522 @@
+@font-face {
+  font-family: "Birthday Script";
+  src: url("/assets/fonts/dancing-script/dancing-script.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+.birthday {
+  scroll-padding-top: 1.5rem;
+}
+
+.birthday body {
+  font-family: var(--bday-serif);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--bday-ink);
+  background:
+    radial-gradient(ellipse at 5% 0%, var(--bday-lilac), transparent 48%),
+    radial-gradient(ellipse at 100% 40%, var(--bday-rose), transparent 55%),
+    linear-gradient(165deg, var(--bday-night), var(--bday-dusk));
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.birthday :focus-visible {
+  outline: 3px solid var(--bday-gold);
+  outline-offset: 5px;
+}
+
+.birthday ::selection {
+  color: var(--bday-night);
+  background: var(--bday-pink);
+}
+
+.bday-skip {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--bday-night);
+  background: var(--bday-paper);
+  transform: translateY(-200%);
+}
+
+.bday-skip:focus {
+  transform: none;
+}
+
+.bday-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, var(--bday-gold) 1px, transparent 1.5px),
+    radial-gradient(circle, var(--bday-soft) 0.75px, transparent 1.5px),
+    radial-gradient(circle, var(--bday-pink) 1px, transparent 2px);
+  background-size:
+    173px 197px,
+    101px 137px,
+    239px 263px;
+  background-position:
+    15px 31px,
+    44px 69px,
+    83px 12px;
+  opacity: 0.28;
+}
+
+.bday-moon {
+  position: absolute;
+  top: max(1.4rem, env(safe-area-inset-top));
+  right: max(1.4rem, env(safe-area-inset-right));
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  box-shadow:
+    inset -0.7rem -0.2rem 0 var(--bday-gold),
+    0 0 2.25rem var(--bday-glow);
+  transform: rotate(-20deg);
+  pointer-events: none;
+}
+
+.bday-main {
+  position: relative;
+  max-width: 34rem;
+  margin-inline: auto;
+  padding-inline: min(5vw, 1.8rem);
+  overflow-wrap: anywhere;
+}
+
+.bday-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-block: 4rem 2.5rem;
+}
+
+.bday-eyebrow {
+  font-family: var(--bday-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--bday-soft);
+}
+
+.bday-title {
+  max-width: 100%;
+  margin-top: 1.4rem;
+  color: var(--bday-ink);
+  font-family: var(--bday-serif);
+  font-size: clamp(1.5rem, 6.4vw, 2rem);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.bday-title span {
+  display: block;
+}
+
+.bday-name {
+  margin-top: 0.05em;
+  padding-inline: 0.1em;
+  font-family: var(--bday-script);
+  font-size: clamp(3rem, 2rem + 14vw, 7rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--bday-pink);
+  background: linear-gradient(105deg, var(--bday-gold), var(--bday-pink) 70%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bday-dedication {
+  margin-top: 0.75rem;
+  color: var(--bday-soft);
+  font-size: 0.98rem;
+  font-style: italic;
+  text-wrap: balance;
+}
+
+.bday-portrait {
+  width: min(100%, 25rem);
+  margin-top: 0.75rem;
+  animation: bday-arrive 1.2s ease-out both;
+}
+
+.bday-couple {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0.8rem 1.5rem var(--bday-shadow));
+}
+
+.bday-portrait-caption {
+  margin-top: -0.5rem;
+  color: var(--bday-gold);
+  font-family: var(--bday-script);
+  font-size: clamp(1.35rem, 6vw, 1.8rem);
+}
+
+.bday-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 44px;
+  margin-top: 1.25rem;
+  padding: 0.4rem 0.8rem;
+  color: var(--bday-soft);
+  font-family: var(--bday-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--bday-border);
+}
+
+.bday-letter {
+  position: relative;
+  margin-top: 1rem;
+  padding: min(6vw, 2.5rem);
+  border: 1px solid var(--bday-border);
+  border-radius: 1.5rem;
+  background: var(--bday-glass);
+  box-shadow: 0 1rem 3rem var(--bday-shadow);
+}
+
+.bday-letter h2,
+.bday-gift h2,
+.bday-closing h2 {
+  font-family: var(--bday-script);
+  font-size: clamp(2.25rem, 9vw, 3rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--bday-pink);
+}
+
+.bday-letter h2 {
+  margin-block: 0.7rem 1.3rem;
+}
+
+.bday-letter > p:not(.bday-eyebrow) {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+}
+
+.bday-letter-heart {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.4rem;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--bday-gold);
+  transform: rotate(12deg);
+}
+
+.bday-letter-last {
+  font-style: italic;
+  color: var(--bday-gold);
+}
+
+.bday-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.7rem 2rem;
+  color: var(--bday-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+}
+
+.bday-divider::before,
+.bday-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--bday-border);
+}
+
+.bday-gift {
+  text-align: center;
+}
+
+.bday-gift h2 {
+  margin-top: 0.65rem;
+}
+
+.bday-gift-hint {
+  margin-block: 0.75rem 1.75rem;
+  font-size: 0.95rem;
+  color: var(--bday-soft);
+  text-wrap: balance;
+}
+
+.bday-scratch {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--bday-gold);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1rem 3rem var(--bday-shadow),
+    0 0 2.5rem var(--bday-glow);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.bday-prize {
+  min-height: 29rem;
+  padding: min(6vw, 2.25rem) min(5vw, 2rem);
+  color: var(--bday-paper-ink);
+  background: linear-gradient(150deg, var(--bday-paper), var(--bday-paper-pink));
+}
+
+.bday-prize .bday-eyebrow {
+  color: var(--bday-paper-accent);
+  font-size: 0.6rem;
+}
+
+.bday-camera {
+  width: 10rem;
+  margin: 1rem auto 0.4rem;
+}
+
+.bday-prize-title {
+  margin-bottom: 0.9rem;
+  font-family: var(--bday-script);
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--bday-paper-accent);
+}
+
+.bday-prize > p:not(.bday-eyebrow) {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.bday-delivery {
+  margin-top: 1.25rem;
+  padding: 0.9rem 0.8rem;
+  border-block: 1px solid color-mix(in srgb, var(--bday-paper-accent) 22%, transparent);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.bday-delivery-title {
+  margin-bottom: 0.3rem;
+  color: var(--bday-paper-accent);
+  font-family: var(--bday-sans);
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.bday-delivery-title span {
+  margin-right: 0.3rem;
+  font-size: 1rem;
+}
+
+.bday-prize-last {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.bday-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+  transition: opacity 0.65s ease;
+}
+
+.bday-scratch.is-revealed .bday-canvas {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bday-scratch-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 1.5rem;
+  color: var(--bday-foil-ink);
+  pointer-events: none;
+}
+
+.bday-seal {
+  display: grid;
+  place-items: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.bday-scratch-heading {
+  max-width: 8em;
+  font-family: var(--bday-script);
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  line-height: 1.2;
+}
+
+.bday-scratch-instruction {
+  font-family: var(--bday-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bday-scratch-stars {
+  font-size: 1rem;
+  letter-spacing: 0.5em;
+}
+
+.bday-reveal {
+  min-height: 48px;
+  margin-top: 1.4rem;
+  padding: 0.8rem 1.5rem;
+  color: var(--bday-night);
+  background: var(--bday-ink);
+  border: 1px solid var(--bday-gold);
+  border-radius: 99px;
+  font-family: var(--bday-sans);
+  font-size: 0.8rem;
+}
+
+.bday-reveal span {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+.bday-prize:focus-visible {
+  outline-color: var(--bday-paper-accent);
+  outline-offset: -7px;
+}
+
+.bday-closing {
+  padding: 3.5rem 0.6rem 4rem;
+  text-align: center;
+}
+
+.bday-closing-heart {
+  margin-bottom: 1.4rem;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--bday-gold);
+}
+
+.bday-closing > p:not(.bday-eyebrow, .bday-closing-heart) {
+  margin-top: 1.1rem;
+  color: var(--bday-soft);
+}
+
+.bday-signature {
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.bday-signature span {
+  display: block;
+  margin-block: 0.1rem 2rem;
+  font-family: var(--bday-script);
+  font-size: 3rem;
+  font-style: normal;
+  color: var(--bday-gold);
+}
+
+.bday-closing .bday-eyebrow {
+  font-size: 0.58rem;
+}
+
+.bday-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bday-confetti span {
+  position: absolute;
+  top: -3rem;
+  color: var(--bday-pink);
+  animation: bday-fall var(--fall-duration) ease-in var(--fall-delay) both;
+}
+
+.bday-confetti span:nth-child(2n) {
+  color: var(--bday-gold);
+}
+
+@keyframes bday-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bday-fall {
+  to {
+    transform: translate(var(--fall-drift), 110vh) rotate(var(--fall-turn));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birthday {
+    scroll-behavior: auto;
+  }
+
+  .bday-portrait,
+  .bday-confetti span {
+    animation: none;
+  }
+
+  .bday-canvas {
+    transition: none;
+  }
+}
+
+@media print {
+  .bday-stars,
+  .bday-moon,
+  .bday-canvas,
+  .bday-scratch-label,
+  .bday-reveal,
+  .bday-confetti,
+  .bday-scroll {
+    display: none !important;
+  }
+
+  .birthday body {
+    color: var(--bday-paper-ink);
+    background: var(--bday-paper);
+  }
+
+  .bday-hero {
+    min-height: auto;
+  }
+
+  .bday-letter,
+  .bday-scratch {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}

@@ -19,6 +19,7 @@ test("build emits only static pages and public assets, with valid structured dat
     "404.html",
     "assets",
     "favicon.ico",
+    "for-sathvika",
     "images",
     "index.html",
     "projects",
@@ -115,7 +116,7 @@ test("projects share one data source for static content and agent-readable struc
   }
 });
 
-test("every registered page shares the same footer with working local top and contact targets", async (t) => {
+test("every portfolio page shares the same footer with working local top and contact targets", async (t) => {
   const f = await fixture(t);
   await build(f.root);
   const footer = (html) => html.match(/<footer class="foot">[\s\S]*?<\/footer>/)[0];
@@ -124,7 +125,7 @@ test("every registered page shares the same footer with working local top and co
       .replace('href="#top"', 'href="#main"')
       .replace('href="#contact"', 'href="&#x2F;#contact"');
   const reference = normalize(await f.output("index.html"));
-  for (const page of f.site.pages) {
+  for (const page of f.site.pages.filter((entry) => !entry.standalone)) {
     const html = await f.output(page.file);
     assert.equal(normalize(html), reference, page.file);
     assert.match(footer(html), new RegExp(`href="#${page.home ? "top" : "main"}"`));
@@ -133,6 +134,29 @@ test("every registered page shares the same footer with working local top and co
       page.home ? /href="#contact"\s+data-email/ : /href="&#x2F;#contact"\s+data-email/,
     );
   }
+});
+
+test("the standalone birthday page is complete, escaped, unlisted, and free of portfolio scripts", async (t) => {
+  const f = await fixture(t);
+  const page = f.site.pages.find((entry) => entry.standalone);
+  page.title = 'A birthday <wish> & "love"';
+  await f.save();
+  await build(f.root);
+  const html = await f.output(page.file);
+  assert.equal((html.match(/<!doctype html>/g) || []).length, 1);
+  assert.match(html, /<title>A birthday &lt;wish&gt; &amp; &quot;love&quot;<\/title>/);
+  assert.match(html, /name="robots" content="noindex, nofollow"/);
+  assert.match(
+    html,
+    /rel="canonical" href="https:&#x2F;&#x2F;akashravi\.github\.io&#x2F;for-sathvika&#x2F;"/,
+  );
+  assert.match(html, /src="\/assets\/js\/birthday.js"/);
+  assert.match(html, /Canon R100/);
+  assert.doesNotMatch(html, /class="nav"|class="foot"|app\.js|theme-init\.js|analytics\.js/);
+  assert.doesNotMatch(html, /googletagmanager|formspree|application\/ld\+json|IMG_0195/);
+  assert.doesNotMatch(await f.output("sitemap.xml"), /for-sathvika/);
+  assert.doesNotMatch(await f.output("index.html"), /for-sathvika|birthday\.js|birthday\.css/);
+  assert.doesNotMatch(await f.output("projects/index.html"), /for-sathvika/);
 });
 
 test("adding many projects needs only data changes, even with repeated categories and optional fields omitted", async (t) => {
@@ -258,6 +282,7 @@ for (const [label, edit] of [
   ["missing titles", (site) => delete site.pages[0].title],
   ["missing home page", (site) => (site.pages[0].home = false)],
   ["indexable error pages", (site) => (site.pages[1].noindex = false)],
+  ["invalid standalone flags", (site) => (site.pages[0].standalone = "true")],
   ["insecure site URLs", (site) => (site.url = "http://example.com")],
   ["invalid résumé IDs", (site) => (site.resumeId = "../invalid")],
 ]) {

@@ -62,6 +62,34 @@ html[data-theme="dark"] {
     0 6px 16px color-mix(in srgb, var(--cp-bg) 25%, transparent);
 }
 
+/* The unlisted birthday page has its own palette, independent of portfolio themes. */
+html.birthday {
+  color-scheme: light;
+  --bday-ink: #fff5f4;
+  --bday-soft: #ead4e9;
+  --bday-pink: #ffb1ce;
+  --bday-gold: #ffdfa2;
+  --bday-night: #261635;
+  --bday-dusk: #533052;
+  --bday-lilac: #72517e;
+  --bday-rose: #8d4d75;
+  --bday-glass: rgb(255 245 244 / 6%);
+  --bday-border: rgb(255 223 162 / 28%);
+  --bday-glow: rgb(255 177 206 / 18%);
+  --bday-shadow: rgb(17 9 27 / 22%);
+  --bday-paper: #fff9f3;
+  --bday-paper-pink: #ffe9ef;
+  --bday-paper-ink: #53334b;
+  --bday-paper-accent: #a13c64;
+  --bday-foil-start: #ffe1ad;
+  --bday-foil-mid: #f4b5d0;
+  --bday-foil-end: #c9b4ec;
+  --bday-foil-ink: #663653;
+  --bday-script: "Birthday Script", "Segoe Script", cursive;
+  --bday-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --bday-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 /* 2. Type & layout tokens ------------------------------------------------ */
 html {
   --font-body: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
