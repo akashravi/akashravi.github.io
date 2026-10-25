@@ -26,8 +26,8 @@
       <stop offset="1" stop-color="#dca17e" />
     </linearGradient>
     <linearGradient id="skin-s" x1="239" y1="189" x2="310" y2="268" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#dbad8e" />
-      <stop offset="1" stop-color="#bd876e" />
+      <stop stop-color="#e9c5a8" />
+      <stop offset="1" stop-color="#d8a889" />
     </linearGradient>
     <linearGradient
       id="cardigan"
@@ -188,7 +188,7 @@
       />
     </g>
 
-    <path d="M249 257l3 27 24 15 28-16-9-32z" fill="#c59275" />
+    <path d="M249 257l3 27 24 15 28-16-9-32z" fill="#d8a98a" />
     <path
       d="M242 277c-21 7-30 21-34 49l-6 79h151l-6-81c-2-23-13-42-43-49l-25 23z"
       fill="url(#cardigan)"
@@ -220,10 +220,10 @@
     <circle cx="276" cy="295" r="1.1" fill="#ffedc2" />
 
     <g transform="rotate(-8 275 221)">
-      <ellipse cx="233" cy="229" rx="7" ry="13" fill="#be896e" />
-      <ellipse cx="314" cy="229" rx="7" ry="13" fill="#be896e" />
+      <ellipse cx="233" cy="229" rx="7" ry="13" fill="#d3a184" />
+      <ellipse cx="314" cy="229" rx="7" ry="13" fill="#d3a184" />
       <path
-        d="M234 198c5-25 66-35 80 4l-1 32c-2 23-18 39-39 40-23 0-39-17-40-40z"
+        d="M236 198c5-25 62-34 76 4l-2 32c-2 20-17 34-36 35-20 0-35-16-37-35z"
         fill="url(#skin-s)"
       />
       <path
@@ -253,7 +253,7 @@
       <ellipse cx="289" cy="225" rx="3.7" ry="4.8" fill="#35272e" />
       <circle cx="253" cy="223.5" r="1.2" fill="#fff7e8" />
       <circle cx="290" cy="223.5" r="1.2" fill="#fff7e8" />
-      <path d="M271 226l-3 12q4 3 8 0" stroke="#a96f5d" stroke-width="2" stroke-linecap="round" />
+      <path d="M271 226l-3 12q4 3 8 0" stroke="#b67e68" stroke-width="2" stroke-linecap="round" />
       <ellipse cx="247" cy="241" rx="7" ry="3.8" fill="#c57a79" opacity=".4" />
       <ellipse cx="297" cy="241" rx="7" ry="3.8" fill="#c57a79" opacity=".4" />
       <path d="M259 249q12-7 25-1c-6 9-18 10-25 1z" fill="#985263" />
@@ -262,10 +262,10 @@
       <circle cx="314" cy="239" r="2.5" fill="#e9c88b" />
     </g>
 
-    <path d="M215 323c7-4 13-2 16 3l6 19-18 8-9-13z" fill="#cc9a7c" />
+    <path d="M215 323c7-4 13-2 16 3l6 19-18 8-9-13z" fill="#dfb394" />
     <path
       d="M215 329l11 11M213 336l9 9"
-      stroke="#ab755f"
+      stroke="#c28d73"
       stroke-width="1.5"
       stroke-linecap="round"
     />
