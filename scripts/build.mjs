@@ -113,6 +113,7 @@ export async function build(root = ROOT) {
         ("home" in page && typeof page.home !== "boolean") ||
         ("noindex" in page && typeof page.noindex !== "boolean") ||
         ("projectsPage" in page && typeof page.projectsPage !== "boolean") ||
+        ("standalone" in page && typeof page.standalone !== "boolean") ||
         typeof page.title !== "string" ||
         !page.title.trim() ||
         typeof page.description !== "string" ||
@@ -149,7 +150,9 @@ export async function build(root = ROOT) {
       const template = await read("src", "pages", ...page.file.split("/"));
       validateTemplate(template, page.file);
       const content = Mustache.render(template, context, partials);
-      const html = Mustache.render(layout, { ...context, content }, partials);
+      const html = page.standalone
+        ? content
+        : Mustache.render(layout, { ...context, content }, partials);
       return { ...page, canonical, html };
     }),
   );

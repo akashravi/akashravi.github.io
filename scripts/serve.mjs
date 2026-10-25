@@ -19,6 +19,7 @@ const types = {
   ".png": "image/png",
   ".webp": "image/webp",
   ".ico": "image/x-icon",
+  ".ttf": "font/ttf",
 };
 await build();
 let pendingBuild = Promise.resolve();

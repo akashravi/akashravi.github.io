@@ -69,9 +69,23 @@ dist\       Generated static output
 ```
 
 `scripts\build.mjs` renders the pages registered in `src\data\site.json`, copies public
-assets, and generates the sitemap. All pages use `src\layout.html` and shared partials.
+assets, and generates the sitemap. Pages use `src\layout.html` and shared partials by default.
 To add a page, create its template under `src\pages` and register its file, title,
 and description in `site.json`.
+
+The birthday page at `/for-sathvika/` is registered with `standalone: true` and
+`noindex: true`. Its template supplies a complete HTML document instead of the
+portfolio layout. It has no portfolio navigation, analytics, or sitemap entry.
+This is an unlisted public page, not a password-protected one.
+
+Its source is `src\pages\for-sathvika\index.html`, with layout in
+`assets\css\birthday.css`, scoped theme tokens in `assets\css\styles.css`, and
+scratch-card behavior in `assets\js\birthday.js`. The original illustration is
+`images\birthday-couple.svg`; the reference photograph is not published.
+The self-hosted Dancing Script font includes its [SIL Open Font License](assets/fonts/dancing-script/OFL.txt).
+No external requests are needed. Without JavaScript or canvas support, the gift
+is shown directly; the reveal button also supports keyboard and touch input.
+Run `npx playwright test tests/birthday.spec.js` for its browser regressions.
 
 Agent-specific editing rules and validation guidance live in [AGENTS.md](AGENTS.md).
 

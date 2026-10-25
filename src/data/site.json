@@ -43,6 +43,13 @@
       "projectsPage": true,
       "title": "Selected projects — Akash Ravi",
       "description": "Public projects designed and built by Akash Ravi, spanning on-device AI, developer tools, and scientific computing. Explore the implementations and source code."
+    },
+    {
+      "file": "for-sathvika/index.html",
+      "standalone": true,
+      "noindex": true,
+      "title": "Happy Birthday, Sathvika",
+      "description": "A little birthday world, made just for you. With all my love, Akash."
     }
   ]
 }

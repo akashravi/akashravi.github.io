@@ -16,7 +16,7 @@
     "preview": "node scripts/serve.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js && node --check scripts/build.mjs && node --check scripts/projects.mjs && node --check scripts/serve.mjs && node --check playwright.config.js",
+    "lint:js": "node --check assets/js/theme-init.js && node --check assets/js/app.js && node --check assets/js/analytics.js && node --check assets/js/birthday.js && node --check scripts/build.mjs && node --check scripts/projects.mjs && node --check scripts/serve.mjs && node --check playwright.config.js",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint:html": "htmlhint \"dist/**/*.html\"",
     "lint": "npm run build && npm run lint:js && npm run lint:css && npm run lint:html && npm run format:check",
